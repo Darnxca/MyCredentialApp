@@ -2,46 +2,62 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:focusable="true"
+    android:padding="8dp"
+    android:layout_marginBottom="2dp"
+    android:clickable="true"
+    android:id="@+id/elementoPadre"
+    android:background="@drawable/item_recycler_pressed_selector">
 
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/nome_servizio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text 1"
-        android:textSize="16sp"
+        android:text="Servizio:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
     <TextView
-        android:id="@+id/text2"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text 2"
+        android:text="username"
         android:textSize="16sp"
-        android:layout_alignTop="@id/text1"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="8dp" />
+        android:textColor="@color/white"
+        android:paddingTop="5sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/nome_servizio"/>
 
     <TextView
-        android:id="@+id/text3"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text 3"
-        android:textSize="16sp"
-        android:layout_below="@id/text1"
-        android:layout_alignStart="@id/text1"
-        android:layout_marginTop="8dp" />
+        android:text="Password"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_below="@id/nome_servizio"/>
 
     <TextView
-        android:id="@+id/text4"
+        android:id="@+id/val_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text 4"
+        android:text="pass"
         android:textSize="16sp"
-        android:layout_below="@id/text2"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="8dp"
-        android:layout_alignTop="@id/text3" />
+        android:inputType="textPassword"
+        android:textColor="@color/white"
+        android:paddingTop="5sp"
+        android:layout_below="@id/nome_servizio"
+        android:layout_toEndOf="@id/password"/>
+
 
 </RelativeLayout>

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +35,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         String[] item = data.get(position);
 
         // prova
@@ -40,7 +43,24 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         holder.text.forEach( (element) -> {
             element.setText(item[i[0]]);
             i[0]++;
+
         });
+
+
+        // Recupera il relativo layout dell'elemento
+        RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
+        itemLayout.setOnClickListener(view -> {
+            Toast.makeText(itemLayout.getContext(), "Mammt"+item[0], Toast.LENGTH_LONG).show();
+        });
+
+        itemLayout.setOnLongClickListener(view -> {
+            Toast.makeText(itemLayout.getContext(), item[0], Toast.LENGTH_LONG).show();
+            return true;
+        });
+
+
+
+
 
     }
 
@@ -60,10 +80,11 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            text.add(itemView.findViewById(R.id.text1));
-            text.add(itemView.findViewById(R.id.text2));
-            text.add(itemView.findViewById(R.id.text3));
-            text.add(itemView.findViewById(R.id.text4));
+            text.add(itemView.findViewById(R.id.id));
+            text.add(itemView.findViewById(R.id.nome_servizio));
+            text.add(itemView.findViewById(R.id.username));
+            text.add(itemView.findViewById(R.id.password));
+            text.add(itemView.findViewById(R.id.val_password));
         }
     }
 }

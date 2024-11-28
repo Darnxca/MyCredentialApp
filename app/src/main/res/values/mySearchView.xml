@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Stile Material per la SearchView -->
+    <style name="mySearchView" parent="ShapeAppearanceOverlay.Material3.SearchBar">
+        <!-- Colore del bordo -->
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <!-- Material Design Style (disegno arrotondato per il box di ricerca) -->
+        <item name="android:background">@drawable/rounded_searchview</item>
+    </style>
+
+</resources>

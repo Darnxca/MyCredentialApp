@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.mypasswordmanager.adapter.CredenzialiRecyclerAdapter;
 import com.example.mypasswordmanager.databinding.FragmentHomeBinding;
@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
 
         HomeViewModel homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
+
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -45,9 +46,21 @@ public class HomeFragment extends Fragment {
         });
 
 
+        // Impostare il filtro per la SearchView
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Non è necessario fare nulla quando l'utente preme invio
+                return false;
+            }
 
-
-
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Filtra i dati ogni volta che la query cambia
+                homeViewModel.filterList(newText);
+                return true;
+            }
+        });
 
 
         return root;
