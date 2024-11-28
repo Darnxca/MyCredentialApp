@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MyPasswordManager</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_credenziali">Credenziali</string>
+    <string name="title_dashboard">Aggiungi</string>
+    <string name="title_impostazioni">Impostazioni</string>
 </resources>

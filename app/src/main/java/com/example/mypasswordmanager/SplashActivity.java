@@ -7,6 +7,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
+import com.example.mypasswordmanager.ui.home.HomeFragment;
+import com.example.mypasswordmanager.ui.home.HomeViewModel;
+
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
