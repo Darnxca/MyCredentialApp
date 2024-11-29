@@ -31,6 +31,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        homeViewModel.loadListData(getContext());
+
         // Configurazione RecyclerView
         RecyclerView recyclerView = binding.recyclerViewCredenziali;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

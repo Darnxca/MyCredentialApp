@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypasswordmanager.R;
+import com.example.mypasswordmanager.entita.Credenziali;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,9 +20,9 @@ import java.util.List;
 
 public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<CredenzialiRecyclerAdapter.ViewHolder> {
 
-    private List<String[]> data;
+    private List<Credenziali> data;
 
-    public CredenzialiRecyclerAdapter(List<String[]> data) {
+    public CredenzialiRecyclerAdapter(List<Credenziali> data) {
         this.data = data;
     }
 
@@ -33,28 +34,25 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        String[] item = data.get(position);
+        Credenziali credenziali = data.get(position);
 
-        // prova
-        final int[] i = {0};
-        holder.text.forEach( (element) -> {
-            element.setText(item[i[0]]);
-            i[0]++;
-
-        });
-
+        holder.text.get(0).setText(credenziali.getId() + ""); // setto id all'elemento
+        holder.text.get(1).setText(credenziali.getServizio()+": "); // setto nome del servizio
+        holder.text.get(2).setText(credenziali.getUsername()); // setto l'username
+        holder.text.get(4).setText(credenziali.getPassword()); // setto la password
 
         // Recupera il relativo layout dell'elemento
         RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
         itemLayout.setOnClickListener(view -> {
-            Toast.makeText(itemLayout.getContext(), "Mammt"+item[0], Toast.LENGTH_LONG).show();
+            Toast.makeText(itemLayout.getContext(), "Mammt"+credenziali, Toast.LENGTH_LONG).show();
         });
 
         itemLayout.setOnLongClickListener(view -> {
-            Toast.makeText(itemLayout.getContext(), item[0], Toast.LENGTH_LONG).show();
+            Toast.makeText(itemLayout.getContext(), credenziali.getId()+"", Toast.LENGTH_LONG).show();
             return true;
         });
 
@@ -70,7 +68,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateData(List<String[]> newData) {
+    public void updateData(List<Credenziali> newData) {
         this.data = newData;
         notifyDataSetChanged();
     }
