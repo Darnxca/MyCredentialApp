@@ -1,5 +1,11 @@
 package com.example.mypasswordmanager.ui.home;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.adapter.CredenzialiRecyclerAdapter;
 import com.example.mypasswordmanager.databinding.FragmentHomeBinding;
 
@@ -38,7 +45,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Imposta un adapter vuoto, che verrà popolato in seguito
-        CredenzialiRecyclerAdapter credenzialiRecyclerAdapter= new CredenzialiRecyclerAdapter(List.of()); // Adapter inizialmente vuoto
+        CredenzialiRecyclerAdapter credenzialiRecyclerAdapter= new CredenzialiRecyclerAdapter(List.of(), getContext()); // Adapter inizialmente vuoto
         recyclerView.setAdapter(credenzialiRecyclerAdapter);
 
         // Osserva i dati nel ViewModel

@@ -1,6 +1,11 @@
 package com.example.mypasswordmanager.adapter;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.entita.Credenziali;
+import com.example.mypasswordmanager.utils.MyCustomDialogMenuCredenziali;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<CredenzialiRecyclerAdapter.ViewHolder> {
 
     private List<Credenziali> data;
+    private Context activityContext;
 
-    public CredenzialiRecyclerAdapter(List<Credenziali> data) {
+    public CredenzialiRecyclerAdapter(List<Credenziali> data, Context context) {
         this.data = data;
+        this.activityContext = context;
     }
 
     @NonNull
@@ -48,17 +55,20 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         // Recupera il relativo layout dell'elemento
         RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
         itemLayout.setOnClickListener(view -> {
+            ClipboardManager clipboard = (ClipboardManager) activityContext.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("carmiaine", credenziali.getPassword());
+            clipboard.setPrimaryClip(clip);
+
             Toast.makeText(itemLayout.getContext(), "Mammt"+credenziali, Toast.LENGTH_LONG).show();
         });
 
         itemLayout.setOnLongClickListener(view -> {
-            Toast.makeText(itemLayout.getContext(), credenziali.getId()+"", Toast.LENGTH_LONG).show();
+            Context context = view.getContext();
+
+            MyCustomDialogMenuCredenziali.showCustomDialog(context);
             return true;
+
         });
-
-
-
-
 
     }
 

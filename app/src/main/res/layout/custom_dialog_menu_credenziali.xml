@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <ImageButton
+        android:id="@+id/copy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/baseline_content_copy_24"
+        android:background="@drawable/circle_button"
+        android:layout_centerHorizontal="true">
+    </ImageButton>
+
+    <LinearLayout
+        android:id="@+id/center_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/copy"
+        android:layout_marginTop="5dp"
+        >
+
+        <ImageButton
+            android:id="@+id/edit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/baseline_mode_edit_24"
+            android:background="@drawable/circle_button"
+            >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/center_close"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:importantForAccessibility="no"
+            android:background="@drawable/circle_button"
+            android:src="@drawable/close_circle_svgrepo_com"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            >
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/copyAll"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/baseline_copy_all_24"
+            android:background="@drawable/circle_button"
+
+            >
+        </ImageButton>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/remove"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/baseline_delete_forever_24"
+        android:background="@drawable/circle_button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/center_layout"
+        android:layout_marginTop="5dp"
+        >
+    </ImageButton>
+
+
+
+
+</RelativeLayout>
