@@ -1,7 +1,5 @@
 package com.example.mypasswordmanager.adapter;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypasswordmanager.R;
@@ -27,10 +27,12 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
     private List<Credenziali> data;
     private Context activityContext;
+    private Fragment fragment;
 
-    public CredenzialiRecyclerAdapter(List<Credenziali> data, Context context) {
+    public CredenzialiRecyclerAdapter(List<Credenziali> data, Context context, Fragment fragment) {
         this.data = data;
         this.activityContext = context;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -65,7 +67,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         itemLayout.setOnLongClickListener(view -> {
             Context context = view.getContext();
 
-            MyCustomDialogMenuCredenziali.showCustomDialog(context);
+            MyCustomDialogMenuCredenziali.showCustomDialog(context, fragment);
             return true;
 
         });

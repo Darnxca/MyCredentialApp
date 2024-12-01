@@ -22,4 +22,11 @@
         android:name="com.example.mypasswordmanager.ui.impostazioni.ImpostazioniFragment"
         android:label="@string/title_impostazioni"
         tools:layout="@layout/fragment_impostazioni" />
+
+    <fragment
+        android:id="@+id/navigation_aggiorna_credenziali"
+        android:name="com.example.mypasswordmanager.ui.aggiornaCredenziali.AggiornaFragment"
+        android:label="Aggiorna credenziali"
+        tools:layout="@layout/fragment_aggiorna_credenziali" />
+
 </navigation>

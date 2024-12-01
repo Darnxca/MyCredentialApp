@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Imposta un adapter vuoto, che verrà popolato in seguito
-        CredenzialiRecyclerAdapter credenzialiRecyclerAdapter= new CredenzialiRecyclerAdapter(List.of(), getContext()); // Adapter inizialmente vuoto
+        CredenzialiRecyclerAdapter credenzialiRecyclerAdapter= new CredenzialiRecyclerAdapter(List.of(), getContext(), this); // Adapter inizialmente vuoto
         recyclerView.setAdapter(credenzialiRecyclerAdapter);
 
         // Osserva i dati nel ViewModel

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.aggiornaCredenziali.AggiornaFragment"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/my_logo"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nome_servizio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome del servizio"
+        style="@style/myInputText"
+        app:endIconMode="clear_text"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/imageView">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Inserisci username o email associata"
+        style="@style/myInputText"
+        app:endIconMode="clear_text"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/nome_servizio"
+        android:layout_centerVertical="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Inserisci password"
+        style="@style/myInputText"
+        app:endIconMode="password_toggle"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/aggiornaBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aggiorna credenziali"
+        android:layout_below="@id/password"
+        android:layout_centerHorizontal="true"
+        app:icon="@drawable/baseline_mode_edit_24"
+        style="@style/myButton"
+        />
+</RelativeLayout>
