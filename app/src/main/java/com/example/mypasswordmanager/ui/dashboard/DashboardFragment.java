@@ -43,7 +43,10 @@ public class DashboardFragment extends Fragment {
 
 
         dashboardViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
-            Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
+            if (messaggio != null) {
+                Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
+                dashboardViewModel.resetDataSavedMessage();
+            }
         });
 
         return root;

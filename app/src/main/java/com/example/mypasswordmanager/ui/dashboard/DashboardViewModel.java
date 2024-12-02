@@ -17,14 +17,18 @@ import java.util.concurrent.Executors;
 
 public class DashboardViewModel extends ViewModel {
 
-    private final MutableLiveData<String> statoSalvataggio = new MutableLiveData<>();
+    private final MutableLiveData<String> statoSalvataggio;
 
     public DashboardViewModel() {
-
+        statoSalvataggio = new MutableLiveData<>();
     }
 
     public LiveData<String> isDataSaved() {
         return statoSalvataggio;
+    }
+
+    public void resetDataSavedMessage() {
+        statoSalvataggio.setValue(null);
     }
 
     public void saveData(Context context, String nomeServizio, String username, String password) {

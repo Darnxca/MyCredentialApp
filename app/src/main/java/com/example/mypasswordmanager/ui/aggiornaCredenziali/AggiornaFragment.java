@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mypasswordmanager.databinding.FragmentAggiornaCredenzialiBinding;
 import com.example.mypasswordmanager.databinding.FragmentDashboardBinding;
+import com.example.mypasswordmanager.entita.Credenziali;
 
 import java.util.Objects;
 
@@ -23,30 +24,43 @@ public class AggiornaFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AggiornaViewModel dashboardViewModel =
+        AggiornaViewModel aggiornaViewModel =
                 new ViewModelProvider(this).get(AggiornaViewModel.class);
 
         binding = FragmentAggiornaCredenzialiBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Recupera i dati
+        Credenziali credenziali = (Credenziali) requireArguments().getSerializable("credenziali");
+
+        if (credenziali != null) {
+            // Usa l'oggetto Credenziali (ad esempio, riempi i campi del form)
+            aggiornaViewModel.setCredenziali(credenziali);
+        }
+
         final EditText nome_servizio = binding.nomeServizio.getEditText();
         final EditText username = binding.username.getEditText();
         final EditText password = binding.password.getEditText();
 
+        aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(), servizio -> Objects.requireNonNull(binding.nomeServizio.getEditText()).setText(servizio));
+        aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), user -> Objects.requireNonNull(binding.username.getEditText()).setText(user));
+        aggiornaViewModel.getPassword().observe(getViewLifecycleOwner(), pass -> Objects.requireNonNull(binding.password.getEditText()).setText(pass));
+
         final Button btn = binding.aggiornaBtn;
 
         btn.setOnClickListener(v -> {
-            /*
-            dashboardViewModel.saveData(getContext(),Objects.requireNonNull(nome_servizio).getText().toString(),
+            aggiornaViewModel.modifyData(getContext(),Objects.requireNonNull(nome_servizio).getText().toString(),
                     Objects.requireNonNull(username).getText().toString(),
                     Objects.requireNonNull(password).getText().toString());
-                    */
-            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
 
-        dashboardViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
-            Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
+        aggiornaViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
+            if (messaggio != null) {
+                Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
+                aggiornaViewModel.resetDataSavedMessage();
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
         });
 
         return root;

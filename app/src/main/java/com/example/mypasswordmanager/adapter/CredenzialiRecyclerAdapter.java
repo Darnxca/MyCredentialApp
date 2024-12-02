@@ -43,7 +43,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         return new ViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -56,6 +56,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
         // Recupera il relativo layout dell'elemento
         RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
+
         itemLayout.setOnClickListener(view -> {
             ClipboardManager clipboard = (ClipboardManager) activityContext.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("carmiaine", credenziali.getPassword());
@@ -67,7 +68,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         itemLayout.setOnLongClickListener(view -> {
             Context context = view.getContext();
 
-            MyCustomDialogMenuCredenziali.showCustomDialog(context, fragment);
+            MyCustomDialogMenuCredenziali.showCustomDialog(context, fragment, credenziali, data, position, this);
             return true;
 
         });

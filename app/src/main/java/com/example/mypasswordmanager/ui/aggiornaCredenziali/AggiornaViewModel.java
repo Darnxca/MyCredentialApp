@@ -18,16 +18,41 @@ import java.util.concurrent.Executors;
 public class AggiornaViewModel extends ViewModel {
 
     private final MutableLiveData<String> statoSalvataggio = new MutableLiveData<>();
+    private final MutableLiveData<String> nomeServizio = new MutableLiveData<>();
+    private final MutableLiveData<String> username = new MutableLiveData<>();
+    private final MutableLiveData<String> password = new MutableLiveData<>();
+    private int id;
 
-    public AggiornaViewModel() {
-
-    }
+    public AggiornaViewModel() {}
 
     public LiveData<String> isDataSaved() {
         return statoSalvataggio;
     }
 
-    public void saveData(Context context, String nomeServizio, String username, String password) {
+    public LiveData<String> getNomeServizio() {
+        return nomeServizio;
+    }
+
+    public LiveData<String> getUsername() {
+        return username;
+    }
+
+    public LiveData<String> getPassword() {
+        return password;
+    }
+
+    public void setCredenziali(Credenziali credenziali) {
+        id = credenziali.getId();
+        nomeServizio.setValue(credenziali.getServizio());
+        username.setValue(credenziali.getUsername());
+        password.setValue(credenziali.getPassword());
+    }
+
+    public void resetDataSavedMessage() {
+        statoSalvataggio.setValue(null);
+    }
+
+    public void modifyData(Context context, String nomeServizio, String username, String password) {
         if (nomeServizio.isEmpty()) {
             statoSalvataggio.setValue(Messaggi.CAMPO_NOME_SERVIZIO_VUOTO.getMessaggio());
         } else if (username.isEmpty()) {
@@ -41,11 +66,13 @@ public class AggiornaViewModel extends ViewModel {
             executor.execute(() -> {
                 AppDatabase database = AppDatabase.getInstance(context);
                 Credenziali credenziali = new Credenziali(nomeServizio, username, password);
-                long id = database.credenzialiDao().insertCredenziali(credenziali);
+                credenziali.setId(id);
+
+                long row = database.credenzialiDao().updateCredenziali(credenziali);
 
                 // Aggiorna LiveData sul main thread
                 new Handler(Looper.getMainLooper()).post(() ->
-                        statoSalvataggio.setValue(Messaggi.SALVATAGGIO_RIUSCITO.getMessaggio() + "    " + id)
+                        statoSalvataggio.setValue(Messaggi.MODIFICARIUSCITA.getMessaggio() + "    " + row)
                 );
             });
         }

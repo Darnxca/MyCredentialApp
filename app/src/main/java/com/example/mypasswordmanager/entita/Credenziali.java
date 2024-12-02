@@ -3,8 +3,10 @@ package com.example.mypasswordmanager.entita;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "credenziali")
-public class Credenziali {
+public class Credenziali implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id; // Chiave primaria
