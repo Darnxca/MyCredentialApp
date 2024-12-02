@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.utils.MyCustomDialogMenuCredenziali;
+import com.example.mypasswordmanager.utils.MySecuritySystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +51,22 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
         Credenziali credenziali = data.get(position);
 
+        MySecuritySystem mySecuritySystem = null;
+        try {
+            mySecuritySystem = new MySecuritySystem();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
         holder.text.get(0).setText(credenziali.getId() + ""); // setto id all'elemento
-        holder.text.get(1).setText(credenziali.getServizio()+": "); // setto nome del servizio
-        holder.text.get(2).setText(credenziali.getUsername()); // setto l'username
+        try {
+            holder.text.get(1).setText(mySecuritySystem.decrypt(credenziali.getServizio())+": "); // setto nome del servizio
+            holder.text.get(2).setText(mySecuritySystem.decrypt(credenziali.getUsername())); // setto l'username
+        } catch (Exception e) {
+        }
+
         holder.text.get(4).setText(credenziali.getPassword()); // setto la password
 
         // Recupera il relativo layout dell'elemento

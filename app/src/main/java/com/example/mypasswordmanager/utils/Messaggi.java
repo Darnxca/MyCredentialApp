@@ -5,8 +5,8 @@ public enum Messaggi {
     CAMPO_NOME_SERVIZIO_VUOTO("Il campo nome servizio è vuoto"),
     CAMPO_USERNAME_VUOTO("Il campo username è vuoto"),
     CAMPO_PASSWORD_VUOTO("Il campo password è vuoto"),
-    MODIFICARIUSCITA("Le credenziali sono state modificate con successo!");
-
+    MODIFICARIUSCITA("Le credenziali sono state modificate con successo!"),
+    ERRORE("Errore");
 
     private final String messaggio;
 
