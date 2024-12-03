@@ -21,9 +21,11 @@ import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.utils.MyCustomDialogMenuCredenziali;
 import com.example.mypasswordmanager.utils.MySecuritySystem;
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<CredenzialiRecyclerAdapter.ViewHolder> {
 
@@ -56,15 +58,17 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
             mySecuritySystem = new MySecuritySystem();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.err));
         }
 
 
         holder.text.get(0).setText(credenziali.getId() + ""); // setto id all'elemento
         try {
-            holder.text.get(1).setText(mySecuritySystem.decrypt(credenziali.getServizio())+": "); // setto nome del servizio
+            holder.text.get(1).setText(Objects.requireNonNull(mySecuritySystem).decrypt(credenziali.getServizio())+": "); // setto nome del servizio
             holder.text.get(2).setText(mySecuritySystem.decrypt(credenziali.getUsername())); // setto l'username
         } catch (Exception e) {
+            PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.erroreDecriptazione));
+
         }
 
         holder.text.get(4).setText(credenziali.getPassword()); // setto la password
@@ -72,12 +76,18 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
         // Recupera il relativo layout dell'elemento
         RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
 
+        MySecuritySystem finalMySecuritySystem = mySecuritySystem;
         itemLayout.setOnClickListener(view -> {
             ClipboardManager clipboard = (ClipboardManager) activityContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("carmiaine", credenziali.getPassword());
-            clipboard.setPrimaryClip(clip);
+            ClipData clip = null;
+            try {
+                clip = ClipData.newPlainText("CopiaPassword", finalMySecuritySystem.decrypt(credenziali.getPassword()));
+            } catch (Exception e) {
+                PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.errore));
 
-            Toast.makeText(itemLayout.getContext(), "Mammt"+credenziali, Toast.LENGTH_LONG).show();
+            }
+            clipboard.setPrimaryClip(Objects.requireNonNull(clip));
+
         });
 
         itemLayout.setOnLongClickListener(view -> {

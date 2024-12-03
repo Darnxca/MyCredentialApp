@@ -3,14 +3,16 @@ package com.example.mypasswordmanager.ui.aggiornaCredenziali;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
-import com.example.mypasswordmanager.utils.Messaggi;
+import com.example.mypasswordmanager.utils.MySecuritySystem;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -41,11 +43,25 @@ public class AggiornaViewModel extends ViewModel {
         return password;
     }
 
-    public void setCredenziali(Credenziali credenziali) {
+    public void setCredenziali(Credenziali credenziali, Context context) {
         id = credenziali.getId();
-        nomeServizio.setValue(credenziali.getServizio());
-        username.setValue(credenziali.getUsername());
-        password.setValue(credenziali.getPassword());
+
+        MySecuritySystem mySecuritySystem = null;
+        try {
+            mySecuritySystem = new MySecuritySystem();
+
+        } catch (Exception e) {
+            statoSalvataggio.setValue(context.getString(R.string.errore) + ";err");
+        }
+
+        try {
+            nomeServizio.setValue(mySecuritySystem.decrypt(credenziali.getServizio()));
+            username.setValue(mySecuritySystem.decrypt(credenziali.getUsername()));
+            password.setValue(mySecuritySystem.decrypt(credenziali.getPassword()));
+        } catch (Exception e) {
+            statoSalvataggio.setValue(context.getString(R.string.erroreDecriptazione) + ";err");
+        }
+
     }
 
     public void resetDataSavedMessage() {
@@ -54,25 +70,45 @@ public class AggiornaViewModel extends ViewModel {
 
     public void modifyData(Context context, String nomeServizio, String username, String password) {
         if (nomeServizio.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_NOME_SERVIZIO_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_servizio_vuoto) + ";err");
         } else if (username.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_USERNAME_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_username_vuoto) + ";err");
         } else if (password.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_PASSWORD_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_password_vuoto) + ";err");
         }else {
+
+            MySecuritySystem mySecuritySystem = null;
+            try {
+                mySecuritySystem = new MySecuritySystem();
+
+            } catch (Exception e) {
+                statoSalvataggio.setValue(context.getString(R.string.errore) + ";err");
+            }
+            MySecuritySystem finalMySecuritySystem = mySecuritySystem;
 
             // Sposta l'operazione su un thread separato
             Executor executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
                 AppDatabase database = AppDatabase.getInstance(context);
-                Credenziali credenziali = new Credenziali(nomeServizio, username, password);
+
+                String servizio_cypher = "", username_cypher = "", password_cypher = "";
+                try {
+                    servizio_cypher = finalMySecuritySystem.encrypt(nomeServizio);
+                    username_cypher = finalMySecuritySystem.encrypt(username);
+                    password_cypher = finalMySecuritySystem.encrypt(password);
+
+                } catch (Exception e) {
+                    statoSalvataggio.setValue(context.getString(R.string.erroreCifratura) + ";err");
+                }
+
+                Credenziali credenziali = new Credenziali(servizio_cypher, username_cypher, password_cypher);
                 credenziali.setId(id);
 
-                long row = database.credenzialiDao().updateCredenziali(credenziali);
+                database.credenzialiDao().updateCredenziali(credenziali);
 
                 // Aggiorna LiveData sul main thread
                 new Handler(Looper.getMainLooper()).post(() ->
-                        statoSalvataggio.setValue(Messaggi.MODIFICARIUSCITA.getMessaggio() + "    " + row)
+                        statoSalvataggio.setValue(context.getString(R.string.modificariuscita))
                 );
             });
         }

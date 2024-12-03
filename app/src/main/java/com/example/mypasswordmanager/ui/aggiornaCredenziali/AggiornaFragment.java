@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentAggiornaCredenzialiBinding;
 import com.example.mypasswordmanager.databinding.FragmentDashboardBinding;
 import com.example.mypasswordmanager.entita.Credenziali;
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.Objects;
 
@@ -35,7 +37,7 @@ public class AggiornaFragment extends Fragment {
 
         if (credenziali != null) {
             // Usa l'oggetto Credenziali (ad esempio, riempi i campi del form)
-            aggiornaViewModel.setCredenziali(credenziali);
+            aggiornaViewModel.setCredenziali(credenziali, getContext());
         }
 
         final EditText nome_servizio = binding.nomeServizio.getEditText();
@@ -57,9 +59,12 @@ public class AggiornaFragment extends Fragment {
 
         aggiornaViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
-                Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
                 aggiornaViewModel.resetDataSavedMessage();
                 requireActivity().getSupportFragmentManager().popBackStack();
+                if(messaggio.contains(";err"))
+                    PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
+                else
+                    PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), messaggio);
             }
         });
 

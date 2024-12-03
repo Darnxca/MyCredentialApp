@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
         style="@style/mySearchView"
-        app:queryHint="Cerca..."
+        app:queryHint="@string/cerca"
         app:iconifiedByDefault="false"/>
 
     <androidx.recyclerview.widget.RecyclerView

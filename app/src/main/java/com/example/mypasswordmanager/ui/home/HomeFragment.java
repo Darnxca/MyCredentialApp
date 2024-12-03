@@ -21,6 +21,7 @@ import androidx.appcompat.widget.SearchView;
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.adapter.CredenzialiRecyclerAdapter;
 import com.example.mypasswordmanager.databinding.FragmentHomeBinding;
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.List;
 
@@ -49,11 +50,15 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(credenzialiRecyclerAdapter);
 
         // Osserva i dati nel ViewModel
-        homeViewModel.getListData().observe(getViewLifecycleOwner(), data -> {
-            // Quando i dati cambiano, aggiorna l'adapter
-            credenzialiRecyclerAdapter.updateData(data);
-        });
+        // Quando i dati cambiano, aggiorna l'adapter
+        homeViewModel.getListData().observe(getViewLifecycleOwner(), credenzialiRecyclerAdapter::updateData);
 
+        homeViewModel.isData().observe(getViewLifecycleOwner(), messaggio -> {
+            if (messaggio != null) {
+                PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio);
+                homeViewModel.resetDataMessage();
+            }
+        });
 
         // Impostare il filtro per la SearchView
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -66,7 +71,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Filtra i dati ogni volta che la query cambia
-                homeViewModel.filterList(newText);
+                homeViewModel.filterList(newText, getContext());
                 return true;
             }
         });

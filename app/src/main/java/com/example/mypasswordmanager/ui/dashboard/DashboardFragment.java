@@ -1,5 +1,6 @@
 package com.example.mypasswordmanager.ui.dashboard;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentDashboardBinding;
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.Objects;
 
@@ -21,6 +25,7 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
@@ -44,7 +49,10 @@ public class DashboardFragment extends Fragment {
 
         dashboardViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
-                Toast.makeText(getContext(), messaggio, Toast.LENGTH_SHORT).show();
+                if(messaggio.contains(";err"))
+                    PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
+                else
+                    PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), messaggio);
                 dashboardViewModel.resetDataSavedMessage();
             }
         });

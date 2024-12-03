@@ -9,7 +9,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -37,23 +40,46 @@ public class MyCustomDialogMenuCredenziali {
         LayoutInflater inflater = LayoutInflater.from(context);
         View customView = inflater.inflate(R.layout.custom_dialog_menu_credenziali, null);
 
+
+        RelativeLayout relativeLayout = customView.findViewById(R.id.parent_layout);
+        LinearLayout linearLayout = customView.findViewById(R.id.center_layout);
         ImageButton copia = customView.findViewById(R.id.copy);
         ImageButton edit = customView.findViewById(R.id.edit);
         ImageButton close = customView.findViewById(R.id.center_close);
         ImageButton copyAll = customView.findViewById(R.id.copyAll);
         ImageButton remove = customView.findViewById(R.id.remove);
 
+
+        MySecuritySystem mySecuritySystem = null;
+        try {
+            mySecuritySystem = new MySecuritySystem();
+
+        } catch (Exception e) {
+            PopUpDialogManager.errorPopup(context, String.valueOf(R.string.err), String.valueOf(R.string.errore));
+        }
+        MySecuritySystem finalMySecuritySystem = mySecuritySystem;
+
         // Impostare il layout personalizzato nel dialogo
         builder.setView(customView);
         // Creare il dialogo
         AlertDialog dialog = builder.create();
 
+        relativeLayout.setOnClickListener(v -> dialog.dismiss());
+
+        linearLayout.setOnClickListener(v -> dialog.dismiss());
+
         copia.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("carmiaine", credenziali.getPassword());
-            clipboard.setPrimaryClip(clip);
+            ClipData clip = null;
+            try {
+                clip = ClipData.newPlainText(R.string.cpy + "", Objects.requireNonNull(finalMySecuritySystem).decrypt(credenziali.getPassword()));
+            } catch (Exception e) {
+                PopUpDialogManager.errorPopup(context, context.getString(R.string.err), context.getString(R.string.erroreDecriptazione));
+            }
+            clipboard.setPrimaryClip(Objects.requireNonNull(clip));
+
             dialog.dismiss();
-            Toast.makeText(context, "Mammt"+credenziali, Toast.LENGTH_LONG).show();
+
         });
 
         edit.setOnClickListener(v -> {
@@ -71,10 +97,17 @@ public class MyCustomDialogMenuCredenziali {
 
         copyAll.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("carmiaine", credenziali.getUsername() + " "+credenziali.getPassword());
-            clipboard.setPrimaryClip(clip);
+            ClipData clip = null;
+            try {
+                clip = ClipData.newPlainText(R.string.cpyUP +"",
+                        Objects.requireNonNull(finalMySecuritySystem).decrypt(credenziali.getUsername())+ " " +
+                             finalMySecuritySystem.decrypt(credenziali.getPassword()));
+            } catch (Exception e) {
+                PopUpDialogManager.errorPopup(context, context.getString(R.string.err), context.getString(R.string.erroreDecriptazione));
+            }
+            clipboard.setPrimaryClip(Objects.requireNonNull(clip));
+
             dialog.dismiss();
-            Toast.makeText(context, "Mammt"+credenziali, Toast.LENGTH_LONG).show();
         });
 
         remove.setOnClickListener( v -> {
@@ -87,7 +120,7 @@ public class MyCustomDialogMenuCredenziali {
 
                 Handler mainHandler = new Handler(Looper.getMainLooper());
                 mainHandler.post(() -> {
-                    Toast.makeText(context, "Credenziale cancellata", Toast.LENGTH_LONG).show();
+                    PopUpDialogManager.successPopUp(context, context.getString(R.string.cancellazione),context.getString(R.string.cancellata));
                     dialog.dismiss();
                     data.remove(position);
                     credenzialiRecyclerAdapter.notifyDataSetChanged();
@@ -97,10 +130,11 @@ public class MyCustomDialogMenuCredenziali {
             });
         });
 
-
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
         // Mostrare il dialog
         dialog.show();
+        Objects.requireNonNull(dialog.getWindow()).setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
     }
 
 }

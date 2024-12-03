@@ -1,26 +1,24 @@
 package com.example.mypasswordmanager.ui.dashboard;
 
+import static android.provider.Settings.System.getString;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
-import com.example.mypasswordmanager.utils.Messaggi;
 import com.example.mypasswordmanager.utils.MySecuritySystem;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import javax.crypto.SecretKey;
 
 public class DashboardViewModel extends ViewModel {
 
@@ -41,11 +39,11 @@ public class DashboardViewModel extends ViewModel {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void saveData(Context context, String nomeServizio, String username, String password) {
         if (nomeServizio.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_NOME_SERVIZIO_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_servizio_vuoto) + ";err");
         } else if (username.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_USERNAME_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_username_vuoto) + ";err");
         } else if (password.isEmpty()) {
-            statoSalvataggio.setValue(Messaggi.CAMPO_PASSWORD_VUOTO.getMessaggio());
+            statoSalvataggio.setValue(context.getString(R.string.campo_password_vuoto) + ";err");
         }else {
 
             MySecuritySystem mySecuritySystem = null;
@@ -53,12 +51,13 @@ public class DashboardViewModel extends ViewModel {
                 mySecuritySystem = new MySecuritySystem();
 
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                statoSalvataggio.setValue(context.getString(R.string.errore) + ";err");
             }
 
             // Sposta l'operazione su un thread separato
             Executor executor = Executors.newSingleThreadExecutor();
             MySecuritySystem finalMySecuritySystem = mySecuritySystem;
+
             executor.execute(() -> {
                 AppDatabase database = AppDatabase.getInstance(context);
 
@@ -69,15 +68,18 @@ public class DashboardViewModel extends ViewModel {
                     password_cypher = finalMySecuritySystem.encrypt(password);
 
                 } catch (Exception e) {
-                    Log.d("casca",e.toString());
+                    // Aggiorna LiveData sul main thread
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            statoSalvataggio.setValue(context.getString(R.string.erroreCifratura) + ";err")
+                    );
                 }
 
                 Credenziali credenziali = new Credenziali(servizio_cypher, username_cypher, password_cypher);
-                long id = database.credenzialiDao().insertCredenziali(credenziali);
+                database.credenzialiDao().insertCredenziali(credenziali);
 
                 // Aggiorna LiveData sul main thread
                 new Handler(Looper.getMainLooper()).post(() ->
-                        statoSalvataggio.setValue(Messaggi.SALVATAGGIO_RIUSCITO.getMessaggio() + "    " + id)
+                        statoSalvataggio.setValue(context.getString(R.string.credenzialisalvate))
                 );
             });
         }

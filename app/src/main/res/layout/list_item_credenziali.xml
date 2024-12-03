@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -19,21 +20,23 @@
         android:id="@+id/nome_servizio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Servizio:"
+        android:text="@string/servizio"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="2dp"
+        />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="username"
+        android:text="@string/username"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:paddingTop="5sp"
+        android:paddingTop="1sp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@id/nome_servizio"/>
 
@@ -41,23 +44,25 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:text="@string/password"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_below="@id/nome_servizio"/>
+        android:textSize="18sp"
+        android:layout_below="@id/nome_servizio"
+        android:layout_marginEnd="2dp"/>
 
     <TextView
         android:id="@+id/val_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="pass"
+        android:text="@string/pass"
         android:textSize="16sp"
         android:inputType="textPassword"
         android:textColor="@color/white"
-        android:paddingTop="5sp"
+        android:paddingTop="3sp"
         android:layout_below="@id/nome_servizio"
-        android:layout_toEndOf="@id/password"/>
+        android:layout_toEndOf="@id/password"
+        tools:ignore="TextViewEdits" />
 
 
 </RelativeLayout>
