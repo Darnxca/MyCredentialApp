@@ -8,7 +8,7 @@
 - **Visualizzazione delle password**: Accedi facilmente alle password salvate.
 - **Copia rapida**: Consente di copiare velocemente una password per utilizzarla.
 - **Autenticazione con password o biometria**: Protegge l'accesso all'app con un sistema di sicurezza integrato.
-
+ 
 ## Stato del Progetto
 
 L'app è attualmente **funzionale** e consente di:
