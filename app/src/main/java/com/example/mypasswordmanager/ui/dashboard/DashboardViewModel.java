@@ -24,18 +24,43 @@ import java.util.concurrent.Executors;
 public class DashboardViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> statoSalvataggio;
+    private final MutableLiveData<String> nomeServizio;
+    private final MutableLiveData<String> username;
+    private final MutableLiveData<String> password;
     private final Context context;
+
 
     public DashboardViewModel(@NonNull Application application) {
         super(application);
         this.statoSalvataggio = new MutableLiveData<>();
         this.context = application.getApplicationContext();
+        this.nomeServizio = new MutableLiveData<>();
+        this.username = new MutableLiveData<>();
+        this.password = new MutableLiveData<>();
+    }
+
+    public LiveData<String> getNomeServizio() {
+        return nomeServizio;
+    }
+
+    public LiveData<String> getUsername() {
+        return username;
+    }
+
+    public LiveData<String> getPassword() {
+        return password;
     }
 
     public LiveData<String> isDataSaved() {
         return statoSalvataggio;
     }
 
+
+    public void emptyCredenziali(){
+        this.nomeServizio.setValue("");
+        this.username.setValue("");
+        this.password.setValue("");
+    }
     public void resetDataSavedMessage() {
         statoSalvataggio.setValue(null);
     }

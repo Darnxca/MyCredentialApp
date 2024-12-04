@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -66,15 +67,16 @@ public class AggiornaFragment extends Fragment {
         });
 
 
+        aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(), Objects.requireNonNull(nome_servizio)::setText);
+        aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), Objects.requireNonNull(username)::setText);
+        aggiornaViewModel.getPassword().observe(getViewLifecycleOwner(), Objects.requireNonNull(password)::setText);
+
+        onBack();
+
         aggiornaViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
                 aggiornaViewModel.resetDataSavedMessage();
-                NavController navController = NavHostFragment.findNavController(this);
-                // Crea le opzioni di navigazione
-                NavOptions navOptions = new NavOptions.Builder()
-                        .setPopUpTo(R.id.navigation_aggiorna_credenziali, true).build();
-                // Aggiungere sempre il nuovo fragment a mobile navigation
-                navController.navigate(R.id.navigation_home, null, navOptions);
+               setNavigation();
                 if(messaggio.contains(";err"))
                     PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
                 else
@@ -88,5 +90,24 @@ public class AggiornaFragment extends Fragment {
     }
 
 
+    private void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
+            @Override    public void handleOnBackPressed() {
+                setNavigation();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+    }
+
+
+    private void setNavigation(){
+        NavController navController = NavHostFragment.findNavController(this);
+        // Crea le opzioni di navigazione
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.navigation_aggiorna_credenziali, true).build();
+        // Aggiungere sempre il nuovo fragment a mobile navigation
+        navController.navigate(R.id.navigation_home, null, navOptions);
+    }
 
 }

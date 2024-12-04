@@ -10,10 +10,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentDashboardBinding;
@@ -46,16 +50,24 @@ public class DashboardFragment extends Fragment {
                     Objects.requireNonNull(password).getText().toString());
         });
 
+        dashboardViewModel.getNomeServizio().observe(getViewLifecycleOwner(), Objects.requireNonNull(nome_servizio)::setText);
+        dashboardViewModel.getUsername().observe(getViewLifecycleOwner(), Objects.requireNonNull(username)::setText);
+        dashboardViewModel.getPassword().observe(getViewLifecycleOwner(), Objects.requireNonNull(password)::setText);
+
 
         dashboardViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
                 if(messaggio.contains(";err"))
                     PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
-                else
+                else {
                     PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), messaggio);
+                    dashboardViewModel.emptyCredenziali();
+                }
                 dashboardViewModel.resetDataSavedMessage();
             }
         });
+
+        onBack();
 
         return root;
     }
@@ -64,5 +76,26 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+
+    private void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
+            @Override    public void handleOnBackPressed() {
+                setNavigation();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+    }
+
+
+    private void setNavigation(){
+        NavController navController = NavHostFragment.findNavController(this);
+        // Crea le opzioni di navigazione
+        NavOptions navOptions = new NavOptions.Builder()
+                .setPopUpTo(R.id.navigation_dashboard, true).build();
+        // Aggiungere sempre il nuovo fragment a mobile navigation
+        navController.navigate(R.id.navigation_home, null, navOptions);
     }
 }
