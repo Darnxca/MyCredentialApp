@@ -68,7 +68,7 @@ public class AggiornaFragment extends Fragment {
         aggiornaViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
                 aggiornaViewModel.resetDataSavedMessage();
-               setNavigation();
+                setNavigation();
                 if(messaggio.contains(";err"))
                     PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
                 else
