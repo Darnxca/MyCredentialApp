@@ -13,16 +13,17 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.adapter.CredenzialiRecyclerAdapter;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
+import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
 
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +53,7 @@ public class MyCustomDialogMenuCredenziali {
 
         MySecuritySystem mySecuritySystem = null;
         try {
-            mySecuritySystem = new MySecuritySystem();
+            mySecuritySystem = MySecuritySystem.getInstance();
 
         } catch (Exception e) {
             PopUpDialogManager.errorPopup(context, String.valueOf(R.string.err), String.valueOf(R.string.errore));
@@ -88,8 +89,13 @@ public class MyCustomDialogMenuCredenziali {
             bundle.putSerializable("credenziali", credenziali);
 
             NavController navController = NavHostFragment.findNavController(fragment);
+            // Crea le opzioni di navigazione
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_home, true)  // "pop up" dei frammenti precedenti, se necessario
+                    .setLaunchSingleTop(true) // Assicura che non venga creata una nuova istanza del frammento
+                    .build();
             // Aggiungere sempre il nuovo fragment a mobile navigation
-            navController.navigate(R.id.navigation_aggiorna_credenziali, bundle);
+            navController.navigate(R.id.navigation_aggiorna_credenziali, bundle, navOptions);
             dialog.dismiss();
         });
 

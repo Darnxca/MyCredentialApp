@@ -16,6 +16,7 @@ L'app è attualmente **funzionale** e consente di:
 - Visualizzare le credenziali.
 - Effettuare una ricerca tra le credenziali salvate.
 - Copiare la password associata alla credenziale scelta
+- Modificare le credenziali
 
 Tuttavia, il progetto è **aperto**: chiunque può personalizzarlo, modificarlo o integrarlo con nuove funzionalità. Puoi prenderlo e farne ciò che vuoi, senza alcuna restrizione.
 
