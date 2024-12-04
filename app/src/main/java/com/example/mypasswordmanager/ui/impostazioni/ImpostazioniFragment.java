@@ -24,8 +24,12 @@ public class ImpostazioniFragment extends Fragment {
         binding = FragmentImpostazioniBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        /*
         final TextView textView = binding.textNotifications;
         impostazioniViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        */
+
         return root;
     }
 
