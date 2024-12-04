@@ -46,9 +46,9 @@ public class AggiornaFragment extends Fragment {
         final EditText username = binding.username.getEditText();
         final EditText password = binding.password.getEditText();
 
-        aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(),  Objects.requireNonNull(nome_servizio)::setText);
-        aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), Objects.requireNonNull(username)::setText);
-        aggiornaViewModel.getPassword().observe(getViewLifecycleOwner(), Objects.requireNonNull(password)::setText);
+        aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(), servizio -> Objects.requireNonNull(binding.nomeServizio.getEditText()).setText(servizio));
+        aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), user -> Objects.requireNonNull(binding.username.getEditText()).setText(user));
+        aggiornaViewModel.getPassword().observe(getViewLifecycleOwner(), pass -> Objects.requireNonNull(binding.password.getEditText()).setText(pass));
 
         final Button btn = binding.aggiornaBtn;
 
@@ -59,34 +59,39 @@ public class AggiornaFragment extends Fragment {
         });
 
 
+        aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(), Objects.requireNonNull(nome_servizio)::setText);
+        aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), Objects.requireNonNull(username)::setText);
+        aggiornaViewModel.getPassword().observe(getViewLifecycleOwner(), Objects.requireNonNull(password)::setText);
+
+        onBack();
+
         aggiornaViewModel.isDataSaved().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
                 aggiornaViewModel.resetDataSavedMessage();
-                setNavigation();
+               setNavigation();
                 if(messaggio.contains(";err"))
                     PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
                 else
                     PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), messaggio);
-
             }
         });
 
 
 
-        setOnBack();
-
         return root;
     }
 
-    private void setOnBack(){
+
+    private void onBack() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
-            @Override
-            public void handleOnBackPressed() {
+            @Override    public void handleOnBackPressed() {
                 setNavigation();
             }
         };
+
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
+
 
     private void setNavigation(){
         NavController navController = NavHostFragment.findNavController(this);
@@ -96,6 +101,5 @@ public class AggiornaFragment extends Fragment {
         // Aggiungere sempre il nuovo fragment a mobile navigation
         navController.navigate(R.id.navigation_home, null, navOptions);
     }
-
 
 }

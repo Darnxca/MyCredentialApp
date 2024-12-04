@@ -29,6 +29,7 @@ public class DashboardViewModel extends AndroidViewModel {
     private final MutableLiveData<String> password;
     private final Context context;
 
+
     public DashboardViewModel(@NonNull Application application) {
         super(application);
         this.statoSalvataggio = new MutableLiveData<>();
@@ -36,21 +37,6 @@ public class DashboardViewModel extends AndroidViewModel {
         this.nomeServizio = new MutableLiveData<>();
         this.username = new MutableLiveData<>();
         this.password = new MutableLiveData<>();
-
-    }
-
-    public LiveData<String> isDataSaved() {
-        return statoSalvataggio;
-    }
-
-    public void resetDataSavedMessage() {
-        statoSalvataggio.setValue(null);
-    }
-
-    public void setTextEmpty(){
-        nomeServizio.setValue("");
-        username.setValue("");
-        password.setValue("");
     }
 
     public LiveData<String> getNomeServizio() {
@@ -64,6 +50,21 @@ public class DashboardViewModel extends AndroidViewModel {
     public LiveData<String> getPassword() {
         return password;
     }
+
+    public LiveData<String> isDataSaved() {
+        return statoSalvataggio;
+    }
+
+
+    public void emptyCredenziali(){
+        this.nomeServizio.setValue("");
+        this.username.setValue("");
+        this.password.setValue("");
+    }
+    public void resetDataSavedMessage() {
+        statoSalvataggio.setValue(null);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void saveData(String nomeServizio, String username, String password) {
         if (nomeServizio.isEmpty()) {

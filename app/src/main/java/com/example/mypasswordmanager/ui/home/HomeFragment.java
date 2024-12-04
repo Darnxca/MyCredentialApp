@@ -1,16 +1,11 @@
 package com.example.mypasswordmanager.ui.home;
 
-import static android.content.Context.CLIPBOARD_SERVICE;
-
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +35,8 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         homeViewModel.loadListData();
+
+        onBack();
 
         // Configurazione RecyclerView
         RecyclerView recyclerView = binding.recyclerViewCredenziali;
@@ -84,5 +81,13 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void onBack() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
+            @Override    public void handleOnBackPressed() {}
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 }

@@ -36,6 +36,8 @@ public class AggiornaViewModel extends AndroidViewModel {
         this.nomeServizio = new MutableLiveData<>();
         this.username = new MutableLiveData<>();
         this.password = new MutableLiveData<>();
+
+
     }
 
     public LiveData<String> isDataSaved() {

@@ -43,8 +43,6 @@ public class MySecuritySystem {
             return generateKey();
         } else {
             return ((KeyStore.SecretKeyEntry) entry).getSecretKey();
-
-
         }
     }
 
