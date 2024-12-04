@@ -1,13 +1,14 @@
 package com.example.mypasswordmanager.ui.dashboard;
 
-import static android.provider.Settings.System.getString;
-
+import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -15,17 +16,20 @@ import androidx.lifecycle.ViewModel;
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
-import com.example.mypasswordmanager.utils.MySecuritySystem;
+import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class DashboardViewModel extends ViewModel {
+public class DashboardViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> statoSalvataggio;
+    private final Context context;
 
-    public DashboardViewModel() {
-        statoSalvataggio = new MutableLiveData<>();
+    public DashboardViewModel(@NonNull Application application) {
+        super(application);
+        this.statoSalvataggio = new MutableLiveData<>();
+        this.context = application.getApplicationContext();
     }
 
     public LiveData<String> isDataSaved() {
@@ -37,21 +41,21 @@ public class DashboardViewModel extends ViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void saveData(Context context, String nomeServizio, String username, String password) {
+    public void saveData(String nomeServizio, String username, String password) {
         if (nomeServizio.isEmpty()) {
-            statoSalvataggio.setValue(context.getString(R.string.campo_servizio_vuoto) + ";err");
+            statoSalvataggio.setValue(this.context.getString(R.string.campo_servizio_vuoto) + ";err");
         } else if (username.isEmpty()) {
-            statoSalvataggio.setValue(context.getString(R.string.campo_username_vuoto) + ";err");
+            statoSalvataggio.setValue(this.context.getString(R.string.campo_username_vuoto) + ";err");
         } else if (password.isEmpty()) {
-            statoSalvataggio.setValue(context.getString(R.string.campo_password_vuoto) + ";err");
+            statoSalvataggio.setValue(this.context.getString(R.string.campo_password_vuoto) + ";err");
         }else {
 
             MySecuritySystem mySecuritySystem = null;
             try {
-                mySecuritySystem = new MySecuritySystem();
+                mySecuritySystem = MySecuritySystem.getInstance();
 
             } catch (Exception e) {
-                statoSalvataggio.setValue(context.getString(R.string.errore) + ";err");
+                statoSalvataggio.setValue(this.context.getString(R.string.errore) + ";err");
             }
 
             // Sposta l'operazione su un thread separato
@@ -59,7 +63,7 @@ public class DashboardViewModel extends ViewModel {
             MySecuritySystem finalMySecuritySystem = mySecuritySystem;
 
             executor.execute(() -> {
-                AppDatabase database = AppDatabase.getInstance(context);
+                AppDatabase database = AppDatabase.getInstance(this.context);
 
                 String servizio_cypher = "", username_cypher = "", password_cypher = "";
                 try {
@@ -70,7 +74,7 @@ public class DashboardViewModel extends ViewModel {
                 } catch (Exception e) {
                     // Aggiorna LiveData sul main thread
                     new Handler(Looper.getMainLooper()).post(() ->
-                            statoSalvataggio.setValue(context.getString(R.string.erroreCifratura) + ";err")
+                            statoSalvataggio.setValue(this.context.getString(R.string.erroreCifratura) + ";err")
                     );
                 }
 
@@ -79,7 +83,7 @@ public class DashboardViewModel extends ViewModel {
 
                 // Aggiorna LiveData sul main thread
                 new Handler(Looper.getMainLooper()).post(() ->
-                        statoSalvataggio.setValue(context.getString(R.string.credenzialisalvate))
+                        statoSalvataggio.setValue(this.context.getString(R.string.credenzialisalvate))
                 );
             });
         }

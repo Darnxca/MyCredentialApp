@@ -14,7 +14,7 @@
         android:title="@string/title_credenziali" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_impostazioni"
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/title_impostazioni" />
 

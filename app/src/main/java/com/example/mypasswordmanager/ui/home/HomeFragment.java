@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        homeViewModel.loadListData(getContext());
+        homeViewModel.loadListData();
 
         // Configurazione RecyclerView
         RecyclerView recyclerView = binding.recyclerViewCredenziali;
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Filtra i dati ogni volta che la query cambia
-                homeViewModel.filterList(newText, getContext());
+                homeViewModel.filterList(newText);
                 return true;
             }
         });

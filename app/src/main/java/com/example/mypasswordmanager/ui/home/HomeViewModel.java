@@ -1,17 +1,19 @@
 package com.example.mypasswordmanager.ui.home;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
-import com.example.mypasswordmanager.utils.MySecuritySystem;
+import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +21,19 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class HomeViewModel extends ViewModel {
+public class HomeViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Credenziali>> mListData;
     private List<Credenziali> fullListData;
     private final MutableLiveData<String> stato;
+    private final Context context;
 
-    public HomeViewModel() {
-        mListData = new MutableLiveData<>();
-        fullListData = new ArrayList<>();
-        stato = new MutableLiveData<>();
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
+        this.context = application.getApplicationContext();
+        this.mListData = new MutableLiveData<>();
+        this.fullListData = new ArrayList<>();
+        this.stato = new MutableLiveData<>();
     }
 
     public LiveData<String> isData() {
@@ -39,11 +44,11 @@ public class HomeViewModel extends ViewModel {
         stato.setValue(null);
     }
 
-    protected void loadListData(Context context) {
+    protected void loadListData() {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Ottieni l'istanza del database
-            AppDatabase database = AppDatabase.getInstance(context);
+            AppDatabase database = AppDatabase.getInstance(this.context);
 
             // Recupera le credenziali dal database
             List<Credenziali> data = database.credenzialiDao().getAllCredenziali();
@@ -61,15 +66,15 @@ public class HomeViewModel extends ViewModel {
         return mListData;
     }
 
-    public void filterList(String query, Context context) {
+    public void filterList(String query) {
         List<Credenziali> filteredList = new ArrayList<>();
         MySecuritySystem mySecuritySystem = null;
 
         try {
-            mySecuritySystem = new MySecuritySystem();
+            mySecuritySystem = MySecuritySystem.getInstance();
 
         } catch (Exception e) {
-            stato.setValue(context.getString(R.string.errore)+ ";err");
+            stato.setValue(this.context.getString(R.string.errore)+ ";err");
         }
 
         if (query.isEmpty()) {
@@ -85,7 +90,7 @@ public class HomeViewModel extends ViewModel {
                         filteredList.add(item);
                     }
                 } catch (Exception e) {
-                    stato.setValue(context.getString(R.string.erroreDecriptazione)+ ";err");
+                    stato.setValue(this.context.getString(R.string.erroreDecriptazione)+ ";err");
                 }
             }
         }

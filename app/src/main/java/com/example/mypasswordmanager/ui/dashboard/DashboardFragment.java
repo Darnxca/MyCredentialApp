@@ -41,7 +41,7 @@ public class DashboardFragment extends Fragment {
         final Button btn = binding.aggiungiBtn;
 
         btn.setOnClickListener(v -> {
-            dashboardViewModel.saveData(getContext(),Objects.requireNonNull(nome_servizio).getText().toString(),
+            dashboardViewModel.saveData(Objects.requireNonNull(nome_servizio).getText().toString(),
                     Objects.requireNonNull(username).getText().toString(),
                     Objects.requireNonNull(password).getText().toString());
         });

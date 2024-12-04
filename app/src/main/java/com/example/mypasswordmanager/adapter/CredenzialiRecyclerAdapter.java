@@ -4,23 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.utils.MyCustomDialogMenuCredenziali;
-import com.example.mypasswordmanager.utils.MySecuritySystem;
+import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.ArrayList;
@@ -30,8 +27,8 @@ import java.util.Objects;
 public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<CredenzialiRecyclerAdapter.ViewHolder> {
 
     private List<Credenziali> data;
-    private Context activityContext;
-    private Fragment fragment;
+    private final Context activityContext;
+    private final Fragment fragment;
 
     public CredenzialiRecyclerAdapter(List<Credenziali> data, Context context, Fragment fragment) {
         this.data = data;
@@ -55,7 +52,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
         MySecuritySystem mySecuritySystem = null;
         try {
-            mySecuritySystem = new MySecuritySystem();
+            mySecuritySystem = MySecuritySystem.getInstance();
 
         } catch (Exception e) {
             PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.err));
@@ -81,7 +78,7 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
             ClipboardManager clipboard = (ClipboardManager) activityContext.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = null;
             try {
-                clip = ClipData.newPlainText("CopiaPassword", finalMySecuritySystem.decrypt(credenziali.getPassword()));
+                clip = ClipData.newPlainText("CopiaPassword", Objects.requireNonNull(finalMySecuritySystem).decrypt(credenziali.getPassword()));
             } catch (Exception e) {
                 PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.errore));
 

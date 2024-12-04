@@ -1,4 +1,4 @@
-package com.example.mypasswordmanager.utils;
+package com.example.mypasswordmanager.mykeystore;
 
 
 import android.security.keystore.KeyGenParameterSpec;
@@ -21,11 +21,20 @@ public class MySecuritySystem {
     private static final String KEYSTORE_PROVIDER = "AndroidKeyStore";
     private static final String TRANSFORMATION = "AES/GCM/NoPadding";
 
-    private KeyStore keyStore;
+    private final KeyStore keyStore;
+    private static MySecuritySystem instance;
 
-    public MySecuritySystem() throws Exception {
+    private MySecuritySystem() throws Exception {
         keyStore = KeyStore.getInstance(KEYSTORE_PROVIDER);
         keyStore.load(null);
+    }
+
+    // Metodo pubblico e sincronizzato per ottenere l'istanza
+    public static synchronized MySecuritySystem getInstance() throws Exception {
+        if (instance == null) {
+            instance = new MySecuritySystem();
+        }
+        return instance;
     }
 
     public SecretKey getSecretKey() throws Exception {
