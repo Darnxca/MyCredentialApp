@@ -35,4 +35,5 @@
     <string name="pass">pass</string>
     <string name="cancellazione">Deleting...</string>
     <string name="cancellata">Credential deleted successfully!</string>
+    <string name="modalita_scura">Dark mode</string>
 </resources>
