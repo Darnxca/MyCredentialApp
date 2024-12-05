@@ -36,4 +36,6 @@
     <string name="cancellazione">Deleting...</string>
     <string name="cancellata">Credential deleted successfully!</string>
     <string name="modalita_scura">Dark mode</string>
+    <string name="Scarica_credenziali">Download credentials</string>
+    <string name="carica_credenziali">Upload credentials</string>
 </resources>

@@ -35,4 +35,6 @@
     <string name="cancellazione">Cancellazione in corso...</string>
     <string name="cancellata">Credenziale cancellata con successo!</string>
     <string name="modalita_scura">Modalità scura</string>
+    <string name="Scarica_credenziali">Scarica credenziali</string>
+    <string name="carica_credenziali">Carica credenziali</string>
 </resources>

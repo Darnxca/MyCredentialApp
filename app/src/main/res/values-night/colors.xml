@@ -13,4 +13,7 @@
     <color name="dialogPopupBackground">#A09F9F</color>
     <color name="dialogPopupTextcolor">#FF000000</color>
     <color name="transparentModal">#80C0C0C0</color>
+    <color name="track">#69BF21</color>
+    <color name="thumb">#FF000000</color>
+    <color name="circleSwitch">#333030</color>
 </resources>
