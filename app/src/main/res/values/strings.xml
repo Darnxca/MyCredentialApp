@@ -37,4 +37,7 @@
     <string name="modalita_scura">Modalità scura</string>
     <string name="Scarica_credenziali">Scarica credenziali</string>
     <string name="carica_credenziali">Carica credenziali</string>
+    <string name="passphrase">Inserire passphrase per procedere</string>
+    <string name="file_salvato_successo">File salvato con successo!</string>
+    <string name="errore_salvataggio_file">Errore durante il salvataggio del file</string>
 </resources>

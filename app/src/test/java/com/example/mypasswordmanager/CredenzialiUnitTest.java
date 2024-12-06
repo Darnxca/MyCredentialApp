@@ -5,37 +5,35 @@ import org.junit.Before;
 
 import static org.junit.Assert.*;
 
-import com.example.mypasswordmanager.entita.Credenziali;
+import com.example.mypasswordmanager.utils.MyCypher;
 
 public class CredenzialiUnitTest {
 
-    private Credenziali credenziali1, credenziali2;
+    private String passphrase;
 
     @Before
     public void setUp() {
-        credenziali1 = new Credenziali();
-        credenziali2 = new Credenziali("Google", "Asfnazza", "1234");
+        passphrase = "carmaine";
     }
 
     @Test
-    public void testSetterGetter() {
-        credenziali2.setId(1);
-        credenziali1.setId(1);
-
-        credenziali1.setServizio(credenziali2.getServizio());
-        credenziali1.setUsername(credenziali2.getUsername());
-        credenziali1.setPassword(credenziali2.getPassword());
-
-        assertEquals(credenziali1.getId(), credenziali2.getId());
-        assertEquals(credenziali1.getServizio(), credenziali2.getServizio());
-        assertEquals(credenziali1.getUsername(), credenziali2.getUsername());
-        assertEquals(credenziali1.getPassword(), credenziali2.getPassword());
+    public void testEncrypt() {
+        try {
+            String dataEncrypt = MyCypher.encrypt("casa", passphrase);
+            assertEquals("88fU+DpvTyO/6bUu5xumcg==", dataEncrypt);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
-    public void testToString() {
-
-        String example = "Credenziali{id=0, servizio='Google', username='Asfnazza', password='1234'}";
-        assertEquals(example, credenziali2.toString());
+    public void testDecrypt() {
+        try {
+            String dataEncrypt = MyCypher.decrypt("88fU+DpvTyO/6bUu5xumcg==", passphrase);
+            assertEquals("casa", dataEncrypt);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
