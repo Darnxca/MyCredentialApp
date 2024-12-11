@@ -46,6 +46,7 @@ dependencies {
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.popup.dialog
+    implementation libs.biometric
 
 
     // Libreria per gestire database tramite lìuso di room
