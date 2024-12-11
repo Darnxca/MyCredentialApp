@@ -40,6 +40,7 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
     private FragmentImpostazioniBinding binding;
     private impostazioniViewModel impostazioniViewModel;
     private String encryptData;
+    private Boolean download = true;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -54,24 +55,22 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         final ImageButton downloadButton = binding.download;
         final ImageButton uploadButton = binding.upload;
 
-        if(impostazioniViewModel.getPassphrase().isEmpty()){
-            MyCustomDialogPassphrase.openPassphraseDialog(this.getActivity(),this);
-        }
+
         impostazioniViewModel.isChecked().observe(getViewLifecycleOwner(),darkModeSwitch::setChecked);
-
-
 
         darkModeSwitch.setOnCheckedChangeListener(impostazioniViewModel::changeTheme);
 
         downloadButton.setOnClickListener( v -> {
+            download = true;
             if(!impostazioniViewModel.getPassphrase().isEmpty()) {
-                impostazioniViewModel.scaricaCredenziali(v);
+                impostazioniViewModel.scaricaCredenziali();
             } else {
                 MyCustomDialogPassphrase.openPassphraseDialog(this.getActivity(),this);
             }
         });
 
         uploadButton.setOnClickListener( v -> {
+            download = false;
             if(!impostazioniViewModel.getPassphrase().isEmpty()) {
                 chooseFileToRead();
             } else {
@@ -85,7 +84,7 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
                     PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), messaggio.replace(";err", ""));
                     impostazioniViewModel.setPassphrase("");
                 }
-                    else {
+                else {
                     PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), messaggio);
                 }
                 impostazioniViewModel.resetDataMessage();
@@ -111,9 +110,15 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         binding = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onPassphraseEntered(String passphrase) {
         impostazioniViewModel.setPassphrase(passphrase);
+
+        if(download)
+            impostazioniViewModel.scaricaCredenziali();
+        else
+            chooseFileToRead();
     }
 
 
@@ -161,10 +166,6 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("text/plain");  // Tipo di file che si desidera leggere (ad esempio, file di testo)
         intent.addCategory(Intent.CATEGORY_OPENABLE);  // Limita i risultati ai file "aperti"
-
-        // Imposta il titolo che apparirà nella schermata di selezione del file
-        intent.putExtra(Intent.EXTRA_TITLE, "Carica file");  // Imposta il titolo a "Carica file"
-
 
         // Usa ActivityResultLauncher per gestire il risultato
         startForResultRead.launch(intent);

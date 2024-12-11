@@ -32,6 +32,9 @@ import com.example.mypasswordmanager.utils.MyCypher;
 import com.example.mypasswordmanager.utils.PassphraseCallback;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -111,8 +114,19 @@ public class impostazioniViewModel extends AndroidViewModel{
         });
     }
 
+    private CompletableFuture<Boolean> deleteCredenziali(){
+        return CompletableFuture.supplyAsync(() -> {
+            // Ottieni l'istanza del database
+            AppDatabase database = AppDatabase.getInstance(this.context);
+
+            // Recupera le credenziali dal database
+            database.credenzialiDao().deleteAllCredenziali();
+            return true;
+        });
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.Q)
-    public void scaricaCredenziali(View view) {
+    public void scaricaCredenziali() {
         getCredenzialiFromDB().thenAccept(data -> {
             // Esegui operazioni con i dati nel thread principale
             new Handler(Looper.getMainLooper()).post(() -> {
@@ -164,10 +178,56 @@ public class impostazioniViewModel extends AndroidViewModel{
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void caricaCredenziali(String encryptdata){
 
-        String plaindata = null;
+        String plaindata;
         try {
             plaindata = MyCypher.decrypt(encryptdata, this.passphrase);
-            Log.d("data", plaindata);
+
+            final MySecuritySystem[] mySecuritySystem = {null};
+            Executor executor = Executors.newSingleThreadExecutor();
+
+            deleteCredenziali().thenAccept(data -> {
+                try {
+                    mySecuritySystem[0] = MySecuritySystem.getInstance();
+                    JSONArray jsonArray = new JSONArray(plaindata);
+
+                    // Iterare attraverso gli elementi dell'array
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+
+                        // Leggere i valori
+                        try {
+                            String servizio_cypher = mySecuritySystem[0].encrypt(obj.getString("servizio"));
+                            String username_cypher = mySecuritySystem[0].encrypt(obj.getString("username"));
+                            String password_cypher = mySecuritySystem[0].encrypt(obj.getString("password"));
+
+
+                            executor.execute(() -> {
+                                AppDatabase database = AppDatabase.getInstance(this.context);
+                                Credenziali credenziali = new Credenziali(servizio_cypher, username_cypher, password_cypher);
+                                database.credenzialiDao().insertCredenziali(credenziali);
+                            });
+
+
+                        } catch (Exception e) {
+                            // Aggiorna LiveData sul main thread
+                            new Handler(Looper.getMainLooper()).post(() ->
+                                    stato.setValue(this.context.getString(R.string.erroreCifratura) + ";err")
+                            );
+                        }
+                    }
+
+                    // Aggiorna LiveData sul main thread
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            stato.setValue(this.context.getString(R.string.credenziali_caricate))
+                    );
+                } catch (Exception e) {
+                    // Aggiorna LiveData sul main thread
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            stato.setValue(this.context.getString(R.string.errore) + ";err")
+                    );
+                }
+            });
+
         } catch (Exception e) {
             stato.setValue(this.context.getString(R.string.erroreDecriptazione)+ ";err");
         }

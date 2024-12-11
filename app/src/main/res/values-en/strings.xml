@@ -41,4 +41,5 @@
     <string name="passphrase">Enter your passphrase to proceed</string>
     <string name="file_salvato_successo">File saved successfully!</string>
     <string name="errore_salvataggio_file">Error saving file</string>
+    <string name="credenziali_caricate">Credentials are loaded successfully!</string>
 </resources>

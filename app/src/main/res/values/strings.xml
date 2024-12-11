@@ -40,4 +40,5 @@
     <string name="passphrase">Inserire passphrase per procedere</string>
     <string name="file_salvato_successo">File salvato con successo!</string>
     <string name="errore_salvataggio_file">Errore durante il salvataggio del file</string>
+    <string name="credenziali_caricate">Le credenziali sono caricate con successo!</string>
 </resources>
