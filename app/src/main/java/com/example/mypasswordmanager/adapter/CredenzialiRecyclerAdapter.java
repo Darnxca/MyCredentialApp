@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,6 +51,10 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Credenziali credenziali = data.get(position);
+        // Recupera il relativo layout dell'elemento
+        RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
+
+
 
         MySecuritySystem mySecuritySystem = null;
         try {
@@ -68,21 +74,41 @@ public class CredenzialiRecyclerAdapter extends RecyclerView.Adapter<Credenziali
 
         }
 
-        holder.text.get(4).setText(credenziali.getPassword()); // setto la password
+        String password = "";
+        try {
+            password = Objects.requireNonNull(mySecuritySystem).decrypt(credenziali.getPassword());
+        }catch (Exception e) {
+            PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.errore));
 
-        // Recupera il relativo layout dell'elemento
-        RelativeLayout itemLayout = (RelativeLayout) holder.itemView;
+        }
 
-        MySecuritySystem finalMySecuritySystem = mySecuritySystem;
+
+        holder.text.get(4).setText("*******"); // setto la password
+        ImageView iconVisibility = itemLayout.findViewById(R.id.showPasswordIcon);
+        // Gestisci l'evento click sull'icona
+        final boolean[] isPasswordVisible = {false}; // Stato della visibilità
+
+        String finalPassword1 = password;
+        iconVisibility.setOnClickListener(view -> {
+            if (isPasswordVisible[0]) {
+                // Nascondi la password
+                holder.text.get(4).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                holder.text.get(4).setText("*******");
+                iconVisibility.setImageResource(R.drawable.baseline_visibility_off_24);
+            } else {
+                // Mostra la password completa
+                holder.text.get(4).setInputType(InputType.TYPE_CLASS_TEXT);
+                holder.text.get(4).setText(finalPassword1);
+                iconVisibility.setImageResource(R.drawable.baseline_visibility_24);
+            }
+            isPasswordVisible[0] = !isPasswordVisible[0]; // Cambia lo stato
+        });
+
+        String finalPassword = password;
         itemLayout.setOnClickListener(view -> {
             ClipboardManager clipboard = (ClipboardManager) activityContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = null;
-            try {
-                clip = ClipData.newPlainText("CopiaPassword", Objects.requireNonNull(finalMySecuritySystem).decrypt(credenziali.getPassword()));
-            } catch (Exception e) {
-                PopUpDialogManager.errorPopup(activityContext, activityContext.getString(R.string.err), activityContext.getString(R.string.errore));
+            ClipData clip = ClipData.newPlainText("CopiaPassword", finalPassword);
 
-            }
             clipboard.setPrimaryClip(Objects.requireNonNull(clip));
 
         });

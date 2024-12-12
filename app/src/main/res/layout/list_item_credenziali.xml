@@ -64,5 +64,13 @@
         android:layout_toEndOf="@id/password"
         tools:ignore="TextViewEdits" />
 
+    <ImageView
+        android:id="@+id/showPasswordIcon"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:src="@drawable/baseline_visibility_off_24"
+        android:layout_below="@id/nome_servizio"
+       android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
