@@ -42,4 +42,14 @@
     <string name="file_salvato_successo">File saved successfully!</string>
     <string name="errore_salvataggio_file">Error saving file</string>
     <string name="credenziali_caricate">Credentials are loaded successfully!</string>
+    <string name="autenticazione">Authentication required to continue</string>
+    <string name="autenticazione_fallita">Authentication failed</string>
+    <string name="biometric_non_enrolled">No biometric credentials configured</string>
+    <string name="biometric_unavailable">Biometrics is not available</string>
+    <string name="biometric_no_hardware">The device does not support biometrics</string>
+    <string name="fallimento_selezione_file">File save was canceled or failed</string>
+    <string name="fallimento_salvataggio_file">Error saving file</string>
+    <string name="fallimento_lettura_file">Error reading file</string>
+    <string name="caricamento">Caricamento</string>
+
 </resources>

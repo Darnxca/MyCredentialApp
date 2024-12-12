@@ -41,4 +41,13 @@
     <string name="file_salvato_successo">File salvato con successo!</string>
     <string name="errore_salvataggio_file">Errore durante il salvataggio del file</string>
     <string name="credenziali_caricate">Le credenziali sono caricate con successo!</string>
+    <string name="autenticazione">Autenticazione richiesta per proseguire</string>
+    <string name="autenticazione_fallita">Autenticazione fallita</string>
+    <string name="biometric_non_enrolled">Nessuna credenziale biometrica configurata</string>
+    <string name="biometric_unavailable">La biometria non è disponibile</string>
+    <string name="biometric_no_hardware">Il dispositivo non supporta la biometria</string>
+    <string name="fallimento_selezione_file">Salvataggio del file annullato o fallito</string>
+    <string name="fallimento_salvataggio_file">Errore nel salvataggio del file</string>
+    <string name="fallimento_lettura_file">Errore nella lettura del file</string>
+    <string name="caricamento">Caricamento</string>
 </resources>

@@ -8,12 +8,13 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.splashscreen.SplashScreen;
+
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.concurrent.Executor;
 
@@ -40,13 +41,13 @@ public class SplashActivity extends AppCompatActivity {
                 authenticateUser();
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
-                Toast.makeText(this, "Il dispositivo non supporta la biometria", Toast.LENGTH_LONG).show();
+                PopUpDialogManager.errorPopup(this, getString(R.string.err), this.getString(R.string.biometric_no_hardware));
                 break;
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
-                Toast.makeText(this, "La biometria non è disponibile", Toast.LENGTH_LONG).show();
+                PopUpDialogManager.errorPopup(this, getString(R.string.err), this.getString(R.string.biometric_unavailable));
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                Toast.makeText(this, "Nessuna credenziale biometrica configurata", Toast.LENGTH_LONG).show();
+                PopUpDialogManager.errorPopup(this, getString(R.string.err), this.getString(R.string.biometric_non_enrolled));
                 break;
         }
     }
@@ -77,21 +78,20 @@ public class SplashActivity extends AppCompatActivity {
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
                 // Autenticazione fallita
-                Toast.makeText(SplashActivity.this, "Autenticazione fallita", Toast.LENGTH_SHORT).show();
+                PopUpDialogManager.errorPopup(SplashActivity.this, getString(R.string.err), SplashActivity.this.getString(R.string.autenticazione_fallita));
             }
 
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 // Errore di autenticazione
-                Toast.makeText(SplashActivity.this, "Errore: " + errString, Toast.LENGTH_SHORT).show();
+                PopUpDialogManager.errorPopup(SplashActivity.this, getString(R.string.err), errString.toString());
             }
         });
 
         // Configura il prompt di autenticazione
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Autenticazione richiesta")
-                .setSubtitle("Utilizza l'autenticazione biometrica o le credenziali del dispositivo")
+                .setTitle(this.getString(R.string.autenticazione))
                 .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG |
                         BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build();

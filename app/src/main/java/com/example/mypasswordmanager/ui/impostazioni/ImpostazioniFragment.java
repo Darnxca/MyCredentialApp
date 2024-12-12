@@ -1,18 +1,15 @@
 package com.example.mypasswordmanager.ui.impostazioni;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -33,6 +30,7 @@ import com.example.mypasswordmanager.utils.PopUpDialogManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ImpostazioniFragment extends Fragment implements PassphraseCallback {
@@ -114,7 +112,6 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
     @Override
     public void onPassphraseEntered(String passphrase) {
         impostazioniViewModel.setPassphrase(passphrase);
-
         if(download)
             impostazioniViewModel.scaricaCredenziali();
         else
@@ -122,28 +119,27 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
     }
 
 
-    // Avvia l'Intent per far scegliere all'utente il percorso
+    // Avvia l'Intent per far scegliere all'utente il percorso dove salvare il file
     private void chooseFileLocation() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, "example.txt");  // Imposta un nome di file predefinito
-
-        // Usa ActivityResultLauncher per gestire il risultato
+        intent.putExtra(Intent.EXTRA_TITLE, "my_credentials.txt");  // Imposto un nome di file predefinito
+        // Uso ActivityResultLauncher per gestire il risultato
         startForResult.launch(intent);
     }
 
-    // Usa il nuovo sistema per gestire i risultati delle Activity
+    // Utilizzo di ActivityResultLauncher per gestire cosa fare quando l'utente ha scelto dove salvare il file
     private final ActivityResultLauncher<Intent> startForResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == RESULT_OK) {
-                        Uri uri = result.getData().getData();
+                        Uri uri = Objects.requireNonNull(result.getData()).getData();
                         if (uri != null) {
                             writeToFile(uri, encryptData);
                         }
                     } else {
-                        Log.e(TAG, "File selection was canceled or failed");
+                        PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), getString(R.string.fallimento_selezione_file));
                     }
                 }
             });
@@ -153,42 +149,38 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         try (OutputStream outputStream = requireActivity().getContentResolver().openOutputStream(uri)) {
             if (outputStream != null) {
                 outputStream.write(content.getBytes());
-                Toast.makeText(requireActivity(), "File saved successfully!", Toast.LENGTH_SHORT).show();
+                PopUpDialogManager.successPopUp(getContext(), getString(R.string.salvataggio), getString(R.string.salvataggio_riuscito));
             }
         } catch (IOException e) {
-            Log.e(TAG, "Error writing file", e);
-            Toast.makeText(requireActivity(), "Error saving file", Toast.LENGTH_SHORT).show();
+            PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), getString(R.string.fallimento_salvataggio_file));
         }
     }
 
-
+    // Intent per scegliere quale file aprire
     private void chooseFileToRead() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.setType("text/plain");  // Tipo di file che si desidera leggere (ad esempio, file di testo)
+        intent.setType("text/plain");
         intent.addCategory(Intent.CATEGORY_OPENABLE);  // Limita i risultati ai file "aperti"
 
-        // Usa ActivityResultLauncher per gestire il risultato
         startForResultRead.launch(intent);
     }
 
-    // Gestisci la selezione del file e leggi il contenuto
+    // Gestisco il contenuto del file letto
     private final ActivityResultLauncher<Intent> startForResultRead =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    Uri uri = result.getData().getData();  // Ottieni l'URI del file
+                    Uri uri = Objects.requireNonNull(result.getData()).getData();
                     if (uri != null) {
                         // Leggi il contenuto del file
                         String fileContent = readFile(uri);
-
                         impostazioniViewModel.caricaCredenziali(fileContent);
-
                     }
                 } else {
-                    Toast.makeText(requireActivity(), "File selection was canceled or failed", Toast.LENGTH_SHORT).show();
+                    PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), getString(R.string.fallimento_selezione_file));
                 }
             });
 
-    // Leggere il contenuto del file
+    // Leggo il contenuto del file
     private String readFile(Uri uri) {
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = requireActivity().getContentResolver().openInputStream(uri)) {
@@ -199,8 +191,8 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
                 }
             }
         } catch (IOException e) {
-            Toast.makeText(requireActivity(), "Error reading file", Toast.LENGTH_SHORT).show();
+            PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), getString(R.string.fallimento_lettura_file));
         }
-        return stringBuilder.toString();  // Restituisci il contenuto del file come stringa
+        return stringBuilder.toString();
     }
 }

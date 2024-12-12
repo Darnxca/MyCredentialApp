@@ -1,6 +1,5 @@
 package com.example.mypasswordmanager.mykeystore;
 
-
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;

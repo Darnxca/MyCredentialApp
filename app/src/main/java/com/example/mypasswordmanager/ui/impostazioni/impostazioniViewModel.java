@@ -4,20 +4,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.view.View;
 import android.widget.CompoundButton;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -27,17 +21,11 @@ import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
-import com.example.mypasswordmanager.utils.MyCustomDialogPassphrase;
 import com.example.mypasswordmanager.utils.MyCypher;
-import com.example.mypasswordmanager.utils.PassphraseCallback;
-import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -157,16 +145,9 @@ public class impostazioniViewModel extends AndroidViewModel{
                     });
                     jsonDB.append("]");
 
-
-
-                    Log.d("data",jsonDB.toString());
-                    Log.d("data",this.passphrase);
-
                     String encryptDB = MyCypher.encrypt(jsonDB.toString(), this.passphrase);
 
-                    Log.d("data",encryptDB);
                     encrypt.setValue(encryptDB);
-
 
                 } catch (Exception e) {
                     stato.setValue(this.context.getString(R.string.errore)+ ";err");
@@ -233,5 +214,4 @@ public class impostazioniViewModel extends AndroidViewModel{
         }
 
     }
-
 }
