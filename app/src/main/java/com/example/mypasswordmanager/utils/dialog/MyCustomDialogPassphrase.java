@@ -1,16 +1,16 @@
-package com.example.mypasswordmanager.utils;
+package com.example.mypasswordmanager.utils.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.InputType;
 import android.widget.EditText;
 
 import com.example.mypasswordmanager.R;
+import com.example.mypasswordmanager.utils.PassphraseCallback;
 
 public class MyCustomDialogPassphrase {
 
-    public static void openPassphraseDialog(Context context,PassphraseCallback callback) {
+    public static void openPassphraseDialog(Context context, PassphraseCallback callback) {
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 

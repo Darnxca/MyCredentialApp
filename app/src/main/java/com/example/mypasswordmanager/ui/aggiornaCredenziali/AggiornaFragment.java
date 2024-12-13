@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentAggiornaCredenzialiBinding;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
+import com.example.mypasswordmanager.utils.Utils;
 
 import java.util.Objects;
 
@@ -45,6 +47,9 @@ public class AggiornaFragment extends Fragment {
         final EditText nome_servizio = binding.nomeServizio.getEditText();
         final EditText username = binding.username.getEditText();
         final EditText password = binding.password.getEditText();
+        final ImageView imageView = binding.imageView;
+
+        imageView.setImageResource(Utils.getImgFromShared(requireContext()));
 
         aggiornaViewModel.getNomeServizio().observe(getViewLifecycleOwner(), servizio -> Objects.requireNonNull(binding.nomeServizio.getEditText()).setText(servizio));
         aggiornaViewModel.getUsername().observe(getViewLifecycleOwner(), user -> Objects.requireNonNull(binding.username.getEditText()).setText(user));

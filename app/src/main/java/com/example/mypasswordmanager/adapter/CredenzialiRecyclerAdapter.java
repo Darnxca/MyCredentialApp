@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.entita.Credenziali;
-import com.example.mypasswordmanager.utils.MyCustomDialogMenuCredenziali;
+import com.example.mypasswordmanager.utils.dialog.MyCustomDialogMenuCredenziali;
 import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
 

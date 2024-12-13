@@ -146,6 +146,48 @@
 
        </RelativeLayout>
 
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           >
+
+           <ImageView
+               android:id="@+id/icon4"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:importantForAccessibility="no"
+               android:src="@drawable/baseline_folder_24"
+               android:layout_marginStart="5dp" />
+
+           <TextView
+               android:id="@+id/text4"
+               android:layout_centerVertical="true"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/carica_credenziali"
+               android:textColor="@color/black"
+               android:layout_toEndOf="@id/icon4"
+               android:textSize="@dimen/text_impostazioni"
+               android:layout_marginEnd="5dp"
+               tools:ignore="RelativeOverlap">
+
+           </TextView>
+
+           <ImageButton
+               android:id="@+id/selectImg"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:importantForAccessibility="no"
+               android:src="@drawable/baseline_file_upload_24"
+               android:background="@drawable/my_icon_button"
+               android:layout_centerVertical="true"
+               android:layout_marginBottom="5dp"
+               android:layout_alignParentEnd="true"
+               android:layout_marginEnd="20dp"
+               >
+           </ImageButton>
+
+       </RelativeLayout>
    </LinearLayout>
 
 </RelativeLayout>

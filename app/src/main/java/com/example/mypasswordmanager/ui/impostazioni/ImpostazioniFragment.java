@@ -23,7 +23,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentImpostazioniBinding;
-import com.example.mypasswordmanager.utils.MyCustomDialogPassphrase;
+import com.example.mypasswordmanager.utils.Utils;
+import com.example.mypasswordmanager.utils.dialog.MyCustomDialogImage;
+import com.example.mypasswordmanager.utils.dialog.MyCustomDialogPassphrase;
 import com.example.mypasswordmanager.utils.PassphraseCallback;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
@@ -52,7 +54,10 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         final SwitchCompat darkModeSwitch = binding.darkMode;
         final ImageButton downloadButton = binding.download;
         final ImageButton uploadButton = binding.upload;
+        final ImageButton selectImage = binding.selectImg;
 
+
+        selectImage.setOnClickListener(v -> MyCustomDialogImage.showImageSelectorDialog(requireContext()));
 
         impostazioniViewModel.isChecked().observe(getViewLifecycleOwner(),darkModeSwitch::setChecked);
 

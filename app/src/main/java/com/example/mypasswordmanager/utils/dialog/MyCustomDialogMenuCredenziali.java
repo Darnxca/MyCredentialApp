@@ -1,4 +1,4 @@
-package com.example.mypasswordmanager.utils;
+package com.example.mypasswordmanager.utils.dialog;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -24,6 +24,7 @@ import com.example.mypasswordmanager.adapter.CredenzialiRecyclerAdapter;
 import com.example.mypasswordmanager.database.AppDatabase;
 import com.example.mypasswordmanager.entita.Credenziali;
 import com.example.mypasswordmanager.mykeystore.MySecuritySystem;
+import com.example.mypasswordmanager.utils.PopUpDialogManager;
 
 import java.util.List;
 import java.util.Objects;

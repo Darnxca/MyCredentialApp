@@ -1,5 +1,7 @@
 package com.example.mypasswordmanager.ui.dashboard;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -20,6 +23,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.mypasswordmanager.R;
 import com.example.mypasswordmanager.databinding.FragmentDashboardBinding;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
+import com.example.mypasswordmanager.utils.Utils;
 
 import java.util.Objects;
 
@@ -36,11 +40,14 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        final ImageView imageView = binding.image;
         final EditText nome_servizio = binding.nomeServizio.getEditText();
         final EditText username = binding.username.getEditText();
         final EditText password = binding.password.getEditText();
 
         final Button btn = binding.aggiungiBtn;
+
+        imageView.setImageResource(Utils.getImgFromShared(requireContext()));
 
         btn.setOnClickListener(v -> {
             dashboardViewModel.saveData(Objects.requireNonNull(nome_servizio).getText().toString(),
@@ -96,4 +103,7 @@ public class DashboardFragment extends Fragment {
         // Aggiungere sempre il nuovo fragment a mobile navigation
         navController.navigate(R.id.navigation_home, null, navOptions);
     }
+
+
+
 }
