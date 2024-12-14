@@ -35,7 +35,7 @@
     <string name="cancellazione">Cancellazione in corso...</string>
     <string name="cancellata">Credenziale cancellata con successo!</string>
     <string name="modalita_scura">Modalità scura</string>
-    <string name="Scarica_credenziali">Scarica credenziali</string>
+    <string name="Scarica_credenziali">Salva credenziali</string>
     <string name="carica_credenziali">Carica credenziali</string>
     <string name="passphrase">Inserire passphrase per procedere</string>
     <string name="file_salvato_successo">File salvato con successo!</string>
@@ -50,4 +50,14 @@
     <string name="fallimento_salvataggio_file">Errore nel salvataggio del file</string>
     <string name="fallimento_lettura_file">Errore nella lettura del file</string>
     <string name="caricamento">Caricamento</string>
+    <string name="cambia_foto">Cambia foto</string>
+    <string name="genera_qrcode">Genera qrcode</string>
+    <string name="scannerizza_qrcode">Scannerizza QR Code</string>
+    <string name="scansione_annullata">Scansione annullata</string>
+    <string name="qrcode_prompt">Inquadra un QR Code</string>
+    <string name="errore_generazione">Errore nella generazione del QR Code</string>
+    <string name="errore_salvataggio_qrcode">Errore nel salvataggio del QR Code</string>
+    <string name="qrcode_generato">QR Code generato con successo</string>
+    <string name="qrcode_salvato">QR Code salvato nella galleria!</string>
+    <string name="salva_qr_code">Salva QR Code</string>
 </resources>

@@ -38,15 +38,17 @@ public class impostazioniViewModel extends AndroidViewModel{
     private final MutableLiveData<String> stato;
     private final MutableLiveData<String> encrypt;
     private String passphrase = "";
+    private boolean isQrcode;
 
 
     public impostazioniViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
         this.isChecked = new MutableLiveData<>();
-        this.isChecked.setValue(isDarkModeEnabled());
         this.stato = new MutableLiveData<>();
         this.encrypt = new MutableLiveData<>();
+
+        this.isChecked.setValue(isDarkModeEnabled());
     }
 
     public LiveData<String> isData() {
@@ -55,6 +57,13 @@ public class impostazioniViewModel extends AndroidViewModel{
 
     public LiveData<Boolean> isChecked() {
         return isChecked;
+    }
+
+    public boolean isQrcode() {
+        return isQrcode;
+    }
+    public void setIsQrcode(boolean value) {
+        this.isQrcode= value;
     }
 
     public void setPassphrase(String passphrase){ this.passphrase = passphrase;}
@@ -148,7 +157,6 @@ public class impostazioniViewModel extends AndroidViewModel{
                     String encryptDB = MyCypher.encrypt(jsonDB.toString(), this.passphrase);
 
                     encrypt.setValue(encryptDB);
-
                 } catch (Exception e) {
                     stato.setValue(this.context.getString(R.string.errore)+ ";err");
                 }

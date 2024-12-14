@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -28,6 +29,10 @@ import com.example.mypasswordmanager.utils.dialog.MyCustomDialogImage;
 import com.example.mypasswordmanager.utils.dialog.MyCustomDialogPassphrase;
 import com.example.mypasswordmanager.utils.PassphraseCallback;
 import com.example.mypasswordmanager.utils.PopUpDialogManager;
+import com.example.mypasswordmanager.utils.dialog.MyCustomDialogQrcode;
+import com.google.zxing.WriterException;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +59,8 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         final SwitchCompat darkModeSwitch = binding.darkMode;
         final ImageButton downloadButton = binding.download;
         final ImageButton uploadButton = binding.upload;
+        final ImageButton qrcode_generator = binding.qrcodeGenera;
+        final ImageButton qrcode_update = binding.qrcodeScanner;
         final ImageButton selectImage = binding.selectImg;
 
 
@@ -65,6 +72,7 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
 
         downloadButton.setOnClickListener( v -> {
             download = true;
+            impostazioniViewModel.setIsQrcode(false);
             if(!impostazioniViewModel.getPassphrase().isEmpty()) {
                 impostazioniViewModel.scaricaCredenziali();
             } else {
@@ -74,6 +82,7 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
 
         uploadButton.setOnClickListener( v -> {
             download = false;
+            impostazioniViewModel.setIsQrcode(false);
             if(!impostazioniViewModel.getPassphrase().isEmpty()) {
                 chooseFileToRead();
             } else {
@@ -81,6 +90,25 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
             }
         });
 
+        qrcode_generator.setOnClickListener(v -> {
+            download = true;
+            impostazioniViewModel.setIsQrcode(true);
+            if(!impostazioniViewModel.getPassphrase().isEmpty()) {
+                impostazioniViewModel.scaricaCredenziali();
+            } else {
+                MyCustomDialogPassphrase.openPassphraseDialog(this.getActivity(),this);
+            }
+        });
+
+        qrcode_update.setOnClickListener(v ->{
+            download = false;
+            impostazioniViewModel.setIsQrcode(true);
+            if(!impostazioniViewModel.getPassphrase().isEmpty()) {
+                startQRScanner();
+            } else {
+                MyCustomDialogPassphrase.openPassphraseDialog(this.getActivity(),this);
+            }
+        });
         impostazioniViewModel.isData().observe(getViewLifecycleOwner(), messaggio -> {
             if (messaggio != null) {
                 if(messaggio.contains(";err")) {
@@ -97,9 +125,11 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         });
 
         impostazioniViewModel.getEncrypt().observe(getViewLifecycleOwner(), data -> {
-                if(!data.isEmpty()) {
-                    encryptData = data;
-                    chooseFileLocation();
+                if (!data.isEmpty() && !impostazioniViewModel.isQrcode()) {
+                        encryptData = data;
+                        chooseFileLocation();
+                } else {
+                    MyCustomDialogQrcode.showQRCodeDialog(getContext(), data);
                 }
             }
         );
@@ -119,8 +149,10 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         impostazioniViewModel.setPassphrase(passphrase);
         if(download)
             impostazioniViewModel.scaricaCredenziali();
+        else if(!impostazioniViewModel.isQrcode())
+                chooseFileToRead();
         else
-            chooseFileToRead();
+            startQRScanner();
     }
 
 
@@ -200,4 +232,28 @@ public class ImpostazioniFragment extends Fragment implements PassphraseCallback
         }
         return stringBuilder.toString();
     }
+
+    private void startQRScanner() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt(getString(R.string.qrcode_prompt));
+        options.setBeepEnabled(true); // Attiva il suono dopo la scansione
+        options.setBarcodeImageEnabled(true); // Salva l'immagine del QR Code scansionato
+        options.setOrientationLocked(false);
+        barcodeLauncher.launch(options);
+    }
+
+    // Callback per gestire il risultato della scansione
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(
+            new ScanContract(),
+            result -> {
+                if (result.getContents() != null) {
+                    // Mostra il risultato della scansione
+                    String qrcode_content = result.getContents();
+                    impostazioniViewModel.caricaCredenziali(qrcode_content);
+                } else {
+                    PopUpDialogManager.errorPopup(getContext(), getString(R.string.err), getString(R.string.scansione_annullata));
+                }
+            }
+    );
+
 }

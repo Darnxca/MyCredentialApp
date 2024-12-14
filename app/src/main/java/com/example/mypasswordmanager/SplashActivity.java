@@ -31,6 +31,7 @@ public class SplashActivity extends AppCompatActivity {
 
         splashScreen.setKeepOnScreenCondition(() -> true );
 
+
         // Verifica se la biometria è disponibile sul dispositivo
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate(

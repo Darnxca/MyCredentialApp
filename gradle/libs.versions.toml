@@ -3,6 +3,7 @@ agp = "8.6.0"
 biometric = "1.1.0"
 circleMenu = "0.3.2"
 coreSplashscreen = "1.0.1"
+coreVersion = "3.5.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -17,6 +18,7 @@ lifecycleLivedataKtx = "2.8.6"
 lifecycleViewmodelKtx = "2.8.6"
 navigationFragment = "2.6.0"
 navigationUi = "2.6.0"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
 biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
@@ -37,6 +39,8 @@ lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-lived
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
+zxing-core = { module = "com.google.zxing:core", version.ref = "coreVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -50,6 +50,15 @@
     <string name="fallimento_selezione_file">File save was canceled or failed</string>
     <string name="fallimento_salvataggio_file">Error saving file</string>
     <string name="fallimento_lettura_file">Error reading file</string>
-    <string name="caricamento">Caricamento</string>
-
+    <string name="caricamento">Loading</string>
+    <string name="cambia_foto">Change photo</string>
+    <string name="genera_qrcode">Generate a QR code</string>
+    <string name="scannerizza_qrcode">Scan a QR code</string>
+    <string name="scansione_annullata">Scan cancelled</string>
+    <string name="qrcode_prompt">Scan a QR code</string>
+    <string name="errore_generazione">Errore in the QR Code generation</string>
+    <string name="errore_salvataggio_qrcode">Error in the QR code save</string>
+    <string name="qrcode_generato">QR code generate with success</string>
+    <string name="qrcode_salvato">QR Code saved in the gallery!</string>
+    <string name="salva_qr_code">Save QR Code</string>
 </resources>

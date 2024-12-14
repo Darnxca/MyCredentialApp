@@ -8,7 +8,9 @@
 - **Visualizzazione delle password**: Accedi facilmente alle password salvate.
 - **Copia rapida**: Consente di copiare velocemente una password per utilizzarla.
 - **Autenticazione con password o biometria**: Protegge l'accesso all'app con un sistema di sicurezza integrato.
- 
+- **Downlod credenziali**: Possibilità di scaricare le credenziali sia in un file che con QR code
+- **Upload credenziali**: Possibilità di caricare le credenziali sia da file che da QR code
+
 ## Stato del Progetto
 
 L'app è attualmente **funzionale** e consente di:
@@ -17,6 +19,8 @@ L'app è attualmente **funzionale** e consente di:
 - Effettuare una ricerca tra le credenziali salvate.
 - Copiare la password associata alla credenziale scelta
 - Modificare le credenziali
+- Scaricare e caricare le credenziali (File o QR code)
+- Entrare utilizzando una password o una biometria
 
 Tuttavia, il progetto è **aperto**: chiunque può personalizzarlo, modificarlo o integrarlo con nuove funzionalità. Puoi prenderlo e farne ciò che vuoi, senza alcuna restrizione.
 

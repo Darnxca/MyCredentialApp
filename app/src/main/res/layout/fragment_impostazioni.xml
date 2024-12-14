@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.impostazioni.ImpostazioniFragment">
 
-   <LinearLayout
+    <LinearLayout
+       android:id="@+id/linear1"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_margin="8dp"
@@ -69,104 +70,17 @@
                android:layout_width="50dp"
                android:layout_height="50dp"
                android:importantForAccessibility="no"
-               android:src="@drawable/baseline_folder_24"
-               android:layout_marginStart="5dp" />
+               android:src="@drawable/user_icon"
+               android:layout_marginStart="5dp"/>
 
            <TextView
                android:id="@+id/text2"
                android:layout_centerVertical="true"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="@string/Scarica_credenziali"
+               android:text="@string/cambia_foto"
                android:textColor="@color/black"
                android:layout_toEndOf="@id/icon2"
-               android:textSize="@dimen/text_impostazioni"
-               android:layout_marginEnd="5dp"
-               tools:ignore="RelativeOverlap">
-
-           </TextView>
-
-           <ImageButton
-               android:id="@+id/download"
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:importantForAccessibility="no"
-               android:src="@drawable/baseline_file_download_24"
-               android:background="@drawable/my_icon_button"
-               android:layout_centerVertical="true"
-               android:layout_marginBottom="5dp"
-               android:layout_alignParentEnd="true"
-               android:layout_marginEnd="20dp"
-               >
-           </ImageButton>
-
-
-       </RelativeLayout>
-
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           >
-
-           <ImageView
-               android:id="@+id/icon3"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
-               android:importantForAccessibility="no"
-               android:src="@drawable/baseline_folder_24"
-               android:layout_marginStart="5dp" />
-
-           <TextView
-               android:id="@+id/text3"
-               android:layout_centerVertical="true"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/carica_credenziali"
-               android:textColor="@color/black"
-               android:layout_toEndOf="@id/icon3"
-               android:textSize="@dimen/text_impostazioni"
-               android:layout_marginEnd="5dp"
-               tools:ignore="RelativeOverlap">
-
-           </TextView>
-
-           <ImageButton
-               android:id="@+id/upload"
-               android:layout_width="40dp"
-               android:layout_height="40dp"
-               android:importantForAccessibility="no"
-               android:src="@drawable/baseline_file_upload_24"
-               android:background="@drawable/my_icon_button"
-               android:layout_centerVertical="true"
-               android:layout_marginBottom="5dp"
-               android:layout_alignParentEnd="true"
-               android:layout_marginEnd="20dp"
-               >
-           </ImageButton>
-
-       </RelativeLayout>
-
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           >
-
-           <ImageView
-               android:id="@+id/icon4"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
-               android:importantForAccessibility="no"
-               android:src="@drawable/baseline_folder_24"
-               android:layout_marginStart="5dp" />
-
-           <TextView
-               android:id="@+id/text4"
-               android:layout_centerVertical="true"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="@string/carica_credenziali"
-               android:textColor="@color/black"
-               android:layout_toEndOf="@id/icon4"
                android:textSize="@dimen/text_impostazioni"
                android:layout_marginEnd="5dp"
                tools:ignore="RelativeOverlap">
@@ -178,7 +92,7 @@
                android:layout_width="40dp"
                android:layout_height="40dp"
                android:importantForAccessibility="no"
-               android:src="@drawable/baseline_file_upload_24"
+               android:src="@drawable/baseline_change_circle_24"
                android:background="@drawable/my_icon_button"
                android:layout_centerVertical="true"
                android:layout_marginBottom="5dp"
@@ -190,4 +104,187 @@
        </RelativeLayout>
    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/impostazioni"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        tools:ignore="UselessParent"
+        android:layout_below="@+id/linear1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/icon3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_folder_24"
+                android:layout_marginStart="5dp" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Scarica_credenziali"
+                android:textColor="@color/black"
+                android:layout_toEndOf="@id/icon3"
+                android:textSize="@dimen/text_impostazioni"
+                android:layout_marginEnd="5dp"
+                tools:ignore="RelativeOverlap">
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/download"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_file_download_24"
+                android:background="@drawable/my_icon_button"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                >
+            </ImageButton>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/icon4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_folder_24"
+                android:layout_marginStart="5dp" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carica_credenziali"
+                android:textColor="@color/black"
+                android:layout_toEndOf="@id/icon4"
+                android:textSize="@dimen/text_impostazioni"
+                android:layout_marginEnd="5dp"
+                tools:ignore="RelativeOverlap">
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/upload"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_file_upload_24"
+                android:background="@drawable/my_icon_button"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                >
+            </ImageButton>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/icon5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_folder_24"
+                android:layout_marginStart="5dp" />
+
+            <TextView
+                android:id="@+id/text5"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/genera_qrcode"
+                android:textColor="@color/black"
+                android:layout_toEndOf="@id/icon5"
+                android:textSize="@dimen/text_impostazioni"
+                android:layout_marginEnd="5dp"
+                tools:ignore="RelativeOverlap">
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/qrcode_genera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_qr_code_24"
+                android:background="@drawable/my_icon_button"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                >
+            </ImageButton>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/icon6"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_folder_24"
+                android:layout_marginStart="5dp" />
+
+            <TextView
+                android:id="@+id/text6"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scannerizza_qrcode"
+                android:textColor="@color/black"
+                android:layout_toEndOf="@id/icon6"
+                android:textSize="@dimen/text_impostazioni"
+                android:layout_marginEnd="5dp"
+                tools:ignore="RelativeOverlap">
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/qrcode_scanner"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/baseline_qr_code_scanner_24"
+                android:background="@drawable/my_icon_button"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                >
+            </ImageButton>
+
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

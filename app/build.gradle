@@ -47,6 +47,8 @@ dependencies {
     implementation libs.navigation.ui
     implementation libs.popup.dialog
     implementation libs.biometric
+    implementation libs.zxing.core
+    implementation libs.zxing.android.embedded // Libreria per QR Code
 
 
     // Libreria per gestire database tramite lìuso di room
