@@ -1,12 +1,18 @@
 package com.example.mypasswordmanager.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +43,14 @@ public class HomeFragment extends Fragment {
         homeViewModel.loadListData();
 
         onBack();
+
+        LinearLayout button_categoria = binding.buttonContainer;
+
+        homeViewModel.getListCategorie().observe(getViewLifecycleOwner(), data -> {
+            data.forEach(categoria -> {
+                button_categoria.addView(homeViewModel.aggiungiBottoneCategoria(getContext(), categoria));
+            });
+        });
 
         // Configurazione RecyclerView
         RecyclerView recyclerView = binding.recyclerViewCredenziali;
@@ -90,4 +104,5 @@ public class HomeFragment extends Fragment {
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
+
 }
