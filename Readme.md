@@ -27,4 +27,5 @@ L'app è attualmente **funzionante** e consente di:
 
 ## Installazione
 
-La guida per l'installazione è attualmente **in costruzione**. 
+Scaricare l'apk al seguente [link](https://github.com/Darnxca/MyCredentialApp/releases/tag/v.1.0.0)
+
