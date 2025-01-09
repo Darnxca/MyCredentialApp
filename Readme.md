@@ -13,7 +13,7 @@
 
 ## Stato del Progetto
 
-L'app è attualmente **funzionale** e consente di:
+L'app è attualmente **funzionante** e consente di:
 - Salvare le credenziali.
 - Visualizzare le credenziali.
 - Effettuare una ricerca tra le credenziali salvate.
@@ -22,12 +22,8 @@ L'app è attualmente **funzionale** e consente di:
 - Scaricare e caricare le credenziali (File o QR code)
 - Entrare utilizzando una password o una biometria
 
-Tuttavia, il progetto è **aperto**: chiunque può personalizzarlo, modificarlo o integrarlo con nuove funzionalità. Puoi prenderlo e farne ciò che vuoi, senza alcuna restrizione.
-
 ## Requisiti Tecnici
-
 - **Piattaforma**: Android
-- **Linguaggio di sviluppo**: Java
 
 ## Installazione
 
