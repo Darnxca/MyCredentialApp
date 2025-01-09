@@ -21,7 +21,7 @@ public class MyCustomDialogPassphrase {
                     // Recupera la passphrase e chiamare il callback
                     String passphrase = input.getText().toString();
                     callback.onPassphraseEntered(passphrase);
-                })
-                .show();
+                }).show();
+
     }
 }

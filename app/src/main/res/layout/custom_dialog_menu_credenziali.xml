@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/copia"
+                android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:layout_marginEnd="5dp"
                 >
@@ -61,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/copiaAll"
+            android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp"
             >
@@ -92,6 +94,7 @@
             android:layout_height="wrap_content"
             android:text="@string/edit"
             android:layout_gravity="center"
+            android:textColor="@color/black"
             android:layout_marginEnd="5dp"
             >
         </TextView>
@@ -121,6 +124,7 @@
             android:layout_height="wrap_content"
             android:text="@string/rimuovi"
             android:layout_gravity="center"
+            android:textColor="@color/black"
             android:layout_marginEnd="5dp"
             >
         </TextView>
@@ -149,6 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chiudi"
+            android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp"
             >

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Colore di sfondo -->
-    <solid android:color="@color/transparentModal" />
+    <solid android:color="@color/newSilver" />
 
     <!-- Arrotondamento dei bordi -->
     <corners android:bottomLeftRadius="16dp" android:topLeftRadius="16dp" />

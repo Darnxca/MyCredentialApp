@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <style name="myButton" parent="Widget.MaterialComponents.Button.Icon">
+        <item name="android:backgroundTint">@color/silver</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="iconTint">@color/black</item>
+    </style>
+</resources>
